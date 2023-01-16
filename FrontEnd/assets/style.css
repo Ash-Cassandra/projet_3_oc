@@ -129,12 +129,24 @@ li:hover {
 #filters {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: flex-start;
+	gap: 20px;
 }
 .filter {
+	box-sizing: border-box;
+	width: auto;
+	height: 37px;
 	border: 1px solid  #1D6154;
-	border-radius: 40%;
-	padding: 20px;
+	border-radius: 60px;
+	padding: 0 10px;
+	margin: 50px 0;
+	color: #1D6154;
+	font-weight: bold;
+	font-family: Syne;
+	font-size: 16px;
+
+	
+	
 }
 
 /*----------------------------*/
