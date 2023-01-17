@@ -33,15 +33,31 @@ genererProjects(works);
 
 /* affichage des boutons */
 const filters = document.querySelector("#filters");
+/*bouton "tous" */
+function genererButton(categories) {
+  const buttonAll = document.createElement("button");
+  buttonAll.className = "filter";
+  buttonAll.innerText = "Tous";
+  filters.appendChild(buttonAll);
 
+  buttonAll.addEventListener("click", function () {
+    const allCategories = works.filter(function (works) {
+      return works;
+    });
+    console.log(works);
+  });
+}
+genererButton(categories);
+
+/*boutons categorie*/
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
     const filter = categories[i];
-    const button = document.createElement("button");
-    button.className = "filter";
-    button.innerText = filter.name;
+    const buttons = document.createElement("button");
+    buttons.className = "filter";
+    buttons.innerText = filter.name;
 
-    filters.appendChild(button);
+    filters.appendChild(buttons);
   }
 }
 genererButtons(categories);
