@@ -81,19 +81,23 @@ function createForm() {
   const formlogin = document.querySelector("main");
 
   const form = document.createElement("form");
+  form.setAttribute("id", "form");
 
   formlogin.appendChild(form);
   /* titre du formulaire */
   const labelName = document.createElement("label");
+  labelName.className = "form-title";
   labelName.setAttribute("for", "nom");
   labelName.innerText = "Log In";
   form.appendChild(labelName);
   /* input e-mail */
   const inputMail = document.createElement("input");
+  inputMail.className = "all-input";
   inputMail.setAttribute("type", "email");
   inputMail.setAttribute("name", "e-mail");
 
   const labelEmail = document.createElement("label");
+  labelEmail.className = "input-title";
   labelEmail.setAttribute("for", "name");
   labelEmail.innerText = "E-mail";
 
@@ -102,10 +106,12 @@ function createForm() {
 
   /* input password */
   const inputPassword = document.createElement("input");
+  inputPassword.className = "all-input";
   inputPassword.setAttribute("type", "password");
   inputPassword.setAttribute("name", "password");
 
   const labelPassword = document.createElement("label");
+  labelPassword.className = "input-title";
   labelPassword.setAttribute("for", "name");
   labelPassword.innerText = " Mot de passe";
 
