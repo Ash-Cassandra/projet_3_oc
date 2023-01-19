@@ -123,6 +123,12 @@ function createForm() {
   buttonLogin.setAttribute("value", "Se connecter");
 
   form.appendChild(buttonLogin);
+
+  const forgotPassword = document.createElement("a");
+  forgotPassword.href = "#";
+  forgotPassword.innerText = "Mot de passe oublié";
+
+  form.appendChild(forgotPassword);
 }
 /* affichage de la page de connexion */
 const login = document.querySelector(".login");
