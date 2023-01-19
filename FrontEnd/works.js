@@ -29,35 +29,50 @@ function genererProjects(works) {
     workElement.appendChild(titleElement);
   }
 }
+
 genererProjects(works);
 
 /* affichage des boutons */
+
 const filters = document.querySelector("#filters");
 /*bouton "tous" */
-function genererButton(categories) {
+function genererButton(works) {
   const buttonAll = document.createElement("button");
   buttonAll.className = "filter";
   buttonAll.innerText = "Tous";
-  filters.appendChild(buttonAll);
-
   buttonAll.addEventListener("click", function () {
-    const allCategories = works.filter(function (works) {
-      return works;
-    });
     console.log(works);
+    return works;
   });
+  filters.appendChild(buttonAll);
 }
-genererButton(categories);
 
+genererButton(works);
 /*boutons categorie*/
+
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
     const filter = categories[i];
     const buttons = document.createElement("button");
     buttons.className = "filter";
     buttons.innerText = filter.name;
-
+    buttons.id = categories.id;
+    buttons.addEventListener("click", function (event) {
+      let buttonId = event.currentTarget;
+      let pictures = document.querySelectorAll("img");
+      let filtredCategory = [];
+      for (let i = 0; i < pictures.length; i++) {
+        if (pictures[i].classList.contains(buttonId.id)) {
+          filtredCategory.push(pictures[i]);
+        }
+      }
+      for (let i = 0; i < filtredCategory.length; i++) {
+        console.log(filtredCategory[i]);
+        return filtredCategory[i];
+      }
+    });
     filters.appendChild(buttons);
   }
 }
+
 genererButtons(categories);

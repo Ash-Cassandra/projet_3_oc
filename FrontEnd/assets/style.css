@@ -144,9 +144,13 @@ li:hover {
 	font-weight: bold;
 	font-family: Syne;
 	font-size: 16px;
-
-	
-	
+}
+.filter:hover {
+	cursor: pointer;
+}
+.filter:focus {
+	background-color: #1D6154;
+	color: #FFFFFF;
 }
 
 /*----------------------------*/
