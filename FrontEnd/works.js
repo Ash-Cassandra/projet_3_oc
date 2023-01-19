@@ -29,12 +29,12 @@ function genererProjects(works) {
     workElement.appendChild(titleElement);
   }
 }
-
 genererProjects(works);
 
 /* affichage des boutons */
 
 const filters = document.querySelector("#filters");
+const gallery = document.querySelector(".gallery");
 /*bouton "tous" */
 function genererButton(works) {
   const buttonAll = document.createElement("button");
@@ -42,7 +42,7 @@ function genererButton(works) {
   buttonAll.innerText = "Tous";
   buttonAll.addEventListener("click", function () {
     console.log(works);
-    return works;
+    return genererProjects(works);
   });
   filters.appendChild(buttonAll);
 }
@@ -74,5 +74,47 @@ function genererButtons(categories) {
     filters.appendChild(buttons);
   }
 }
-
 genererButtons(categories);
+
+/* creation du formulaire */
+function createForm() {
+  const formlogin = document.querySelector("main");
+
+  const form = document.createElement("form");
+
+  formlogin.appendChild(form);
+  /* titre du formulaire */
+  const labelName = document.createElement("label");
+  labelName.setAttribute("for", "nom");
+  labelName.innerText = "Log In";
+  form.appendChild(labelName);
+  /* input e-mail */
+  const inputMail = document.createElement("input");
+  inputMail.setAttribute("type", "email");
+  inputMail.setAttribute("name", "e-mail");
+
+  const labelEmail = document.createElement("label");
+  labelEmail.setAttribute("for", "name");
+  labelEmail.innerText = "E-mail";
+
+  form.appendChild(labelEmail);
+  form.appendChild(inputMail);
+
+  /* input password */
+  const inputPassword = document.createElement("input");
+  inputPassword.setAttribute("type", "password");
+  inputPassword.setAttribute("name", "password");
+
+  const labelPassword = document.createElement("label");
+  labelPassword.setAttribute("for", "name");
+  labelPassword.innerText = " Mot de passe";
+
+  form.appendChild(labelPassword);
+  form.appendChild(inputPassword);
+}
+/* affichage de la page de connexion */
+const login = document.querySelector(".login");
+login.addEventListener("click", function () {
+  document.querySelector("main").innerHTML = "";
+  return createForm();
+});
