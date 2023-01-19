@@ -117,6 +117,12 @@ function createForm() {
 
   form.appendChild(labelPassword);
   form.appendChild(inputPassword);
+
+  const buttonLogin = document.createElement("input");
+  buttonLogin.setAttribute("type", "submit");
+  buttonLogin.setAttribute("value", "Se connecter");
+
+  form.appendChild(buttonLogin);
 }
 /* affichage de la page de connexion */
 const login = document.querySelector(".login");
