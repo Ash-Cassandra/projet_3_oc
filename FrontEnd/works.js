@@ -11,6 +11,7 @@ document.querySelector(".gallery").innerHTML = "";
 function genererProjects(works) {
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
+    console.log(project);
     const sectionGallery = document.querySelector(".gallery");
     /* fiche projet */
     const workElement = document.createElement("figure");
@@ -20,6 +21,7 @@ function genererProjects(works) {
     imageElement.src = project.imageUrl;
     imageElement.crossOrigin = "anonymous";
     imageElement.alt = project.title;
+    imageElement.classList.add("category-" + project.categoryId, "img");
 
     const titleElement = document.createElement("h2");
     titleElement.innerText = project.title;
@@ -41,7 +43,7 @@ function genererButton(works) {
   buttonAll.className = "filter";
   buttonAll.innerText = "Tous";
   buttonAll.addEventListener("click", function () {
-    console.log(works);
+    document.querySelector(".gallery").innerHTML = "";
     return genererProjects(works);
   });
   filters.appendChild(buttonAll);
@@ -52,24 +54,25 @@ genererButton(works);
 
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
+    console.log(categories[i]);
     const filter = categories[i];
     const buttons = document.createElement("button");
     buttons.className = "filter";
     buttons.innerText = filter.name;
-    buttons.id = categories.id;
+    buttons.id = categories[i].id;
     buttons.addEventListener("click", function (event) {
       let buttonId = event.currentTarget;
-      let pictures = document.querySelectorAll("img");
+      console.log(buttonId.id);
+      let pictures = document.querySelectorAll(".img");
       let filtredCategory = [];
       for (let i = 0; i < pictures.length; i++) {
-        if (pictures[i].classList.contains(buttonId.id)) {
-          filtredCategory.push(pictures[i]);
+        if (!pictures[i].classList.contains("category-" + buttonId.id)) {
+          pictures[i].parentElement.style.display = "none";
+        } else {
+          pictures[i].parentElement.style.display = "block";
         }
       }
-      for (let i = 0; i < filtredCategory.length; i++) {
-        console.log(filtredCategory[i]);
-        return filtredCategory[i];
-      }
+      console.log(filtredCategory);
     });
     filters.appendChild(buttons);
   }
