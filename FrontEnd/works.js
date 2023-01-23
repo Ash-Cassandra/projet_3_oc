@@ -1,3 +1,7 @@
+const token = window.sessionStorage.getItem(
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4"
+);
+
 const responses = await fetch("http://localhost:5678/api/works");
 const works = await responses.json();
 
@@ -11,7 +15,6 @@ document.querySelector(".gallery").innerHTML = "";
 function genererProjects(works) {
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
-    console.log(project);
     const sectionGallery = document.querySelector(".gallery");
     /* fiche projet */
     const workElement = document.createElement("figure");
@@ -54,7 +57,6 @@ genererButton(works);
 
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
-    console.log(categories[i]);
     const filter = categories[i];
     const buttons = document.createElement("button");
     buttons.className = "filter";
@@ -62,7 +64,6 @@ function genererButtons(categories) {
     buttons.id = categories[i].id;
     buttons.addEventListener("click", function (event) {
       let buttonId = event.currentTarget;
-      console.log(buttonId.id);
       let pictures = document.querySelectorAll(".img");
       let filtredCategory = [];
       for (let i = 0; i < pictures.length; i++) {
@@ -72,7 +73,6 @@ function genererButtons(categories) {
           pictures[i].parentElement.style.display = "block";
         }
       }
-      console.log(filtredCategory);
     });
     filters.appendChild(buttons);
   }
@@ -95,9 +95,9 @@ function createForm() {
   form.appendChild(labelName);
   /* input e-mail */
   const inputMail = document.createElement("input");
-  inputMail.className = "all-input";
+  inputMail.classList = ("all-input", "inputMail");
   inputMail.setAttribute("type", "email");
-  inputMail.setAttribute("name", "e-mail");
+  inputMail.setAttribute("name", "email");
 
   const labelEmail = document.createElement("label");
   labelEmail.className = "input-title";
@@ -109,7 +109,7 @@ function createForm() {
 
   /* input password */
   const inputPassword = document.createElement("input");
-  inputPassword.className = "all-input";
+  inputPassword.classList = ("all-input", "password");
   inputPassword.setAttribute("type", "password");
   inputPassword.setAttribute("name", "password");
 
@@ -120,22 +120,60 @@ function createForm() {
 
   form.appendChild(labelPassword);
   form.appendChild(inputPassword);
-
+  /* bouton se connecter */
   const buttonLogin = document.createElement("input");
   buttonLogin.setAttribute("type", "submit");
   buttonLogin.setAttribute("value", "Se connecter");
+  buttonLogin.setAttribute("id", "buttonLogin");
+  buttonLogin.addEventListener("click", function (event) {
+    event.preventDefault();
+    validEmail(inputMail), validPassword(inputPassword);
+    authenticatedSession();
+  });
 
   form.appendChild(buttonLogin);
 
+  // verification de la validité du mail
+  const validEmail = function () {
+    //RegEx de l'e-mail
+    let emailRegEx = new RegExp(
+      "^[a-zA-Z0-9.-_]+@{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
+      "g"
+    );
+    const testEmail = emailRegEx.test(inputMail.value);
+    console.log(testEmail);
+    return true;
+  };
+
+  // verification de la validité du mot de passe
+  const validPassword = function () {
+    //RegEx du mot de passe
+    let passwordRegEx = new RegExp("^[a-zA-Z0-9.-_()]+", "g");
+    const testPassword = passwordRegEx.test(inputPassword.value);
+    console.log(testPassword);
+    return true;
+  };
+
+  /* lien mot de passe oublié*/
   const forgotPassword = document.createElement("a");
   forgotPassword.href = "#";
   forgotPassword.innerText = "Mot de passe oublié";
 
   form.appendChild(forgotPassword);
 }
+
 /* affichage de la page de connexion */
-const login = document.querySelector(".login");
-login.addEventListener("click", function () {
+const navLogin = document.querySelector(".login");
+navLogin.addEventListener("click", function () {
   document.querySelector("main").innerHTML = "";
   return createForm();
 });
+//nouveau code
+function authenticatedSession() {
+  if (validEmail && validPassword) {
+    console.log("ok authenticatedSession");
+  } else {
+    console.log("non ok authenfi...");
+  }
+}
+// fin du nouveau code
