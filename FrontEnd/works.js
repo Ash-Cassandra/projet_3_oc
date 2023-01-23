@@ -168,12 +168,3 @@ navLogin.addEventListener("click", function () {
   document.querySelector("main").innerHTML = "";
   return createForm();
 });
-//nouveau code
-function authenticatedSession() {
-  if (validEmail && validPassword) {
-    console.log("ok authenticatedSession");
-  } else {
-    console.log("non ok authenfi...");
-  }
-}
-// fin du nouveau code
