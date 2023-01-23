@@ -127,8 +127,11 @@ function createForm() {
   buttonLogin.setAttribute("id", "buttonLogin");
   buttonLogin.addEventListener("click", function (event) {
     event.preventDefault();
-    validEmail(inputMail), validPassword(inputPassword);
-    authenticatedSession();
+    if (validEmail(inputMail) && validPassword(inputPassword)) {
+      authenticatedSession();
+    } else {
+      console.log("non ok");
+    }
   });
 
   form.appendChild(buttonLogin);
@@ -142,7 +145,9 @@ function createForm() {
     );
     const testEmail = emailRegEx.test(inputMail.value);
     console.log(testEmail);
-    return true;
+    if (testEmail === true) {
+      return true;
+    }
   };
 
   // verification de la validité du mot de passe
@@ -151,7 +156,9 @@ function createForm() {
     let passwordRegEx = new RegExp("^[a-zA-Z0-9.-_()]+", "g");
     const testPassword = passwordRegEx.test(inputPassword.value);
     console.log(testPassword);
-    return true;
+    if (testPassword === true) {
+      return true;
+    }
   };
 
   /* lien mot de passe oublié*/
@@ -168,3 +175,8 @@ navLogin.addEventListener("click", function () {
   document.querySelector("main").innerHTML = "";
   return createForm();
 });
+//nouveau code
+function authenticatedSession() {
+  console.log("ok authenticatedSession");
+}
+// fin du nouveau code
