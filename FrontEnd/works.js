@@ -188,11 +188,11 @@ function authenticatedSession() {
     },
     body: jsonData,
   }).then(async (responses) => {
-    let jsonData = await responses.json();
+    let tokenData = await responses.json();
     if (responses.ok) {
-      sessionStorage.setItem("token", jsonData);
+      sessionStorage.setItem("token", tokenData);
 
-      console.log(jsonData);
+      console.log(tokenData);
     } else {
       console.log("erreur");
       alert("Erreur dans l’identifiant ou le mot de passe");
