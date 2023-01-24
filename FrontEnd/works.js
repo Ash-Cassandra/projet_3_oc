@@ -1,7 +1,3 @@
-const token = window.sessionStorage.getItem(
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4"
-);
-
 const responses = await fetch("http://localhost:5678/api/works");
 const works = await responses.json();
 
@@ -175,8 +171,33 @@ navLogin.addEventListener("click", function () {
   document.querySelector("main").innerHTML = "";
   return createForm();
 });
+//
+//
+//
+//
 //nouveau code
+const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
+const jsonData = JSON.stringify(data);
+console.log(jsonData);
+
 function authenticatedSession() {
-  console.log("ok authenticatedSession");
+  fetch("http://localhost:5678/api/users/login", {
+    method: "POST",
+    headers: {
+      "content-Type": "application/json",
+    },
+    body: jsonData,
+  }).then(async (responses) => {
+    let jsonData = await responses.json();
+    if (responses.ok) {
+      sessionStorage.setItem("token", jsonData);
+
+      console.log(jsonData);
+    } else {
+      console.log("erreur");
+      alert("Erreur dans l’identifiant ou le mot de passe");
+    }
+  });
 }
+console.log(sessionStorage.getItem("token"));
 // fin du nouveau code
