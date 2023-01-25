@@ -6,16 +6,45 @@ const categories = await responsesCategories.json();
 
 document.querySelector(".gallery").innerHTML = "";
 
-/* affichage des projets sur le site */
+//verification du statut de connexion
+if (sessionStorage.getItem("loggedIn") === "true") {
+  //si connexion ok afficher la page utilisateur
+  //creation de la bannière
+  const header = document.querySelector("header");
+
+  const banner = document.createElement("nav");
+  banner.className = "banner";
+  header.appendChild(banner);
+
+  const bannerText = document.createElement("p");
+  bannerText.innerText = "Mode édition";
+  banner.appendChild(bannerText);
+
+  const bannerButton = document.createElement("button");
+  bannerButton.innerText = "publier les changements";
+  bannerButton.className = "banner-button";
+  banner.appendChild(bannerButton);
+
+  const linkToModify = document.querySelectorAll(".to-modify");
+  linkToModify.forEach((link) => {
+    const toModify = document.createElement("p");
+    toModify.innerText = "modifier";
+    link.appendChild(toModify);
+  });
+} else {
+  //sinon afficher la page de projets
+  genererProjects(works);
+}
+// affichage des projets sur le site
 
 function genererProjects(works) {
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
     const sectionGallery = document.querySelector(".gallery");
-    /* fiche projet */
+    // fiche projet
     const workElement = document.createElement("figure");
 
-    /* balises de la fiche */
+    // balises de la fiche
     const imageElement = document.createElement("img");
     imageElement.src = project.imageUrl;
     imageElement.crossOrigin = "anonymous";
@@ -32,11 +61,11 @@ function genererProjects(works) {
 }
 genererProjects(works);
 
-/* affichage des boutons */
+// affichage des boutons
 
 const filters = document.querySelector("#filters");
 const gallery = document.querySelector(".gallery");
-/*bouton "tous" */
+// bouton "tous"
 function genererButton(works) {
   const buttonAll = document.createElement("button");
   buttonAll.className = "filter";
@@ -49,7 +78,7 @@ function genererButton(works) {
 }
 
 genererButton(works);
-/*boutons categorie*/
+// boutons categorie
 
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
@@ -75,7 +104,7 @@ function genererButtons(categories) {
 }
 genererButtons(categories);
 
-/* creation du formulaire */
+// creation du formulaire
 function createForm() {
   const formlogin = document.querySelector("main");
 
@@ -83,13 +112,13 @@ function createForm() {
   form.setAttribute("id", "form");
 
   formlogin.appendChild(form);
-  /* titre du formulaire */
+  // titre du formulaire
   const labelName = document.createElement("label");
   labelName.className = "form-title";
   labelName.setAttribute("for", "nom");
   labelName.innerText = "Log In";
   form.appendChild(labelName);
-  /* input e-mail */
+  // input e-mail
   const inputMail = document.createElement("input");
   inputMail.classList = ("all-input", "inputMail");
   inputMail.setAttribute("type", "email");
@@ -103,7 +132,7 @@ function createForm() {
   form.appendChild(labelEmail);
   form.appendChild(inputMail);
 
-  /* input password */
+  // input password
   const inputPassword = document.createElement("input");
   inputPassword.classList = ("all-input", "password");
   inputPassword.setAttribute("type", "password");
@@ -116,7 +145,7 @@ function createForm() {
 
   form.appendChild(labelPassword);
   form.appendChild(inputPassword);
-  /* bouton se connecter */
+  // bouton se connecter
   const buttonLogin = document.createElement("input");
   buttonLogin.setAttribute("type", "submit");
   buttonLogin.setAttribute("value", "Se connecter");
@@ -157,7 +186,7 @@ function createForm() {
     }
   };
 
-  /* lien mot de passe oublié*/
+  // lien mot de passe oublié
   const forgotPassword = document.createElement("a");
   forgotPassword.href = "#";
   forgotPassword.innerText = "Mot de passe oublié";
@@ -165,20 +194,16 @@ function createForm() {
   form.appendChild(forgotPassword);
 }
 
-/* affichage de la page de connexion */
+// affichage de la page de connexion
 const navLogin = document.querySelector(".login");
 navLogin.addEventListener("click", function () {
   document.querySelector("main").innerHTML = "";
   return createForm();
 });
-//
-//
-//
-//
-//nouveau code
+
+//verification de la connexion
 const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
 const jsonData = JSON.stringify(data);
-console.log(jsonData);
 
 function authenticatedSession() {
   fetch("http://localhost:5678/api/users/login", {
@@ -190,14 +215,13 @@ function authenticatedSession() {
   }).then(async (responses) => {
     let tokenData = await responses.json();
     if (responses.ok) {
+      // si connexion ok = enregistrer le token & rediriger vers la page principale
       sessionStorage.setItem("token", tokenData);
-
-      console.log(tokenData);
+      sessionStorage.setItem("loggedIn", true);
+      window.location.replace("index.html");
     } else {
       console.log("erreur");
       alert("Erreur dans l’identifiant ou le mot de passe");
     }
   });
 }
-console.log(sessionStorage.getItem("token"));
-// fin du nouveau code
