@@ -31,9 +31,7 @@ if (sessionStorage.getItem("loggedIn") === "true") {
     toModify.innerText = "modifier";
     link.appendChild(toModify);
   });
-} // nouveau code
-//
-//
+}
 //affichage des projets dans la modale
 function generateProjectsModal(works) {
   for (let i = 0; i < works.length; i++) {
@@ -46,15 +44,22 @@ function generateProjectsModal(works) {
     picturesModal.crossOrigin = "anonymous";
     picturesModal.alt = projectsModal.title;
     picturesModal.className = "pictures-modal";
+    picturesModal.setAttribute("id", picturesModal.alt);
+
+    //création des icones
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa-regular fa-trash-can";
+
+    const arrowsIcon = document.createElement("i");
+    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right icon";
 
     editModal.appendChild(workModal);
     workModal.appendChild(picturesModal);
+    picturesModal.parentNode.appendChild(deleteIcon);
   }
 }
 generateProjectsModal(works);
-// fin de nouveau code
-//
-//
+
 let modal = null;
 
 modal = document.querySelector(".modal");

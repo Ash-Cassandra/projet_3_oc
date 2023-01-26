@@ -316,11 +316,14 @@ footer nav ul {
 				height: auto;
 				object-fit: cover;
 			}
-			.icon {
+			.fa-trash-can {
 				background-color: #000;
 				color: #FFF;
 				border: 1px solid #000;
 				border-radius: 25%;
+				padding: 2px;
+				position: absolute;
+				z-index: 1;
 			}
 	.upload-picture {
 		border: 1px solid #1D6154;
