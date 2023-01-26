@@ -25,10 +25,15 @@ if (sessionStorage.getItem("loggedIn") === "true") {
   bannerButton.className = "banner-button";
   banner.appendChild(bannerButton);
 
+  //ajout des liens "modifier"
   const linkToModify = document.querySelectorAll(".to-modify");
   linkToModify.forEach((link) => {
     const toModify = document.createElement("a");
     toModify.innerText = "modifier";
+    const modifyIcon = document.createElement("i");
+    modifyIcon.className = "fa-regular fa-pen-to-square";
+
+    link.appendChild(modifyIcon);
     link.appendChild(toModify);
   });
 }
@@ -51,7 +56,7 @@ function generateProjectsModal(works) {
     deleteIcon.className = "fa-regular fa-trash-can";
 
     const arrowsIcon = document.createElement("i");
-    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right icon";
+    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
 
     editModal.appendChild(workModal);
     workModal.appendChild(picturesModal);
