@@ -27,14 +27,68 @@ if (sessionStorage.getItem("loggedIn") === "true") {
 
   const linkToModify = document.querySelectorAll(".to-modify");
   linkToModify.forEach((link) => {
-    const toModify = document.createElement("p");
+    const toModify = document.createElement("a");
     toModify.innerText = "modifier";
     link.appendChild(toModify);
   });
-} else {
-  //sinon afficher la page de projets
-  genererProjects(works);
+} // nouveau code
+//
+//
+//affichage des projets dans la modale
+function generateProjectsModal(works) {
+  for (let i = 0; i < works.length; i++) {
+    const projectsModal = works[i];
+    const editModal = document.querySelector(".edit-project");
+    const workModal = document.createElement("figure");
+    //affichage image
+    const picturesModal = document.createElement("img");
+    picturesModal.src = projectsModal.imageUrl;
+    picturesModal.crossOrigin = "anonymous";
+    picturesModal.alt = projectsModal.title;
+    picturesModal.className = "pictures-modal";
+
+    editModal.appendChild(workModal);
+    workModal.appendChild(picturesModal);
+  }
 }
+generateProjectsModal(works);
+// fin de nouveau code
+//
+//
+let modal = null;
+
+modal = document.querySelector(".modal");
+const editButton = document.querySelector(".the-third");
+editButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  modal.style.display = null;
+  modal.removeAttribute("aria-hidden");
+  modal.addEventListener("click", closeModal);
+  modal
+    .querySelector(".button-close-modal")
+    .addEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
+});
+
+const closeModal = function (event) {
+  if (modal === null) return;
+  event.preventDefault();
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+  modal.removeEventListener("click", closeModal);
+  modal
+    .querySelector(".button-close-modal")
+    .removeEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .removeEventListener("click", stopPropagation);
+};
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
+
 // affichage des projets sur le site
 
 function genererProjects(works) {
@@ -90,7 +144,6 @@ function genererButtons(categories) {
     buttons.addEventListener("click", function (event) {
       let buttonId = event.currentTarget;
       let pictures = document.querySelectorAll(".img");
-      let filtredCategory = [];
       for (let i = 0; i < pictures.length; i++) {
         if (!pictures[i].classList.contains("category-" + buttonId.id)) {
           pictures[i].parentElement.style.display = "none";
