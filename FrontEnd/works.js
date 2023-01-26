@@ -11,7 +11,6 @@ if (sessionStorage.getItem("loggedIn") === "true") {
   //si connexion ok afficher la page utilisateur
   //creation de la bannière
   const header = document.querySelector("header");
-
   const banner = document.createElement("nav");
   banner.className = "banner";
   header.appendChild(banner);
@@ -24,7 +23,6 @@ if (sessionStorage.getItem("loggedIn") === "true") {
   bannerButton.innerText = "publier les changements";
   bannerButton.className = "banner-button";
   banner.appendChild(bannerButton);
-
   //ajout des liens "modifier"
   const linkToModify = document.querySelectorAll(".to-modify");
   linkToModify.forEach((link) => {
@@ -37,77 +35,14 @@ if (sessionStorage.getItem("loggedIn") === "true") {
     link.appendChild(toModify);
   });
 }
-//affichage des projets dans la modale
-function generateProjectsModal(works) {
-  for (let i = 0; i < works.length; i++) {
-    const projectsModal = works[i];
-    const editModal = document.querySelector(".edit-project");
-    const workModal = document.createElement("figure");
-    //affichage image
-    const picturesModal = document.createElement("img");
-    picturesModal.src = projectsModal.imageUrl;
-    picturesModal.crossOrigin = "anonymous";
-    picturesModal.alt = projectsModal.title;
-    picturesModal.className = "pictures-modal";
-    picturesModal.setAttribute("id", picturesModal.alt);
 
-    //création des icones
-    const deleteIcon = document.createElement("i");
-    deleteIcon.className = "fa-regular fa-trash-can";
-
-    const arrowsIcon = document.createElement("i");
-    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
-
-    editModal.appendChild(workModal);
-    workModal.appendChild(picturesModal);
-    picturesModal.parentNode.appendChild(deleteIcon);
-  }
-}
-generateProjectsModal(works);
-
-let modal = null;
-
-modal = document.querySelector(".modal");
-const editButton = document.querySelector(".the-third");
-editButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  modal.style.display = null;
-  modal.removeAttribute("aria-hidden");
-  modal.addEventListener("click", closeModal);
-  modal
-    .querySelector(".button-close-modal")
-    .addEventListener("click", closeModal);
-  modal
-    .querySelector(".stop-propagation")
-    .addEventListener("click", stopPropagation);
-});
-
-const closeModal = function (event) {
-  if (modal === null) return;
-  event.preventDefault();
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  modal.removeEventListener("click", closeModal);
-  modal
-    .querySelector(".button-close-modal")
-    .removeEventListener("click", closeModal);
-  modal
-    .querySelector(".stop-propagation")
-    .removeEventListener("click", stopPropagation);
-};
-const stopPropagation = function (event) {
-  event.stopPropagation();
-};
-
-// affichage des projets sur le site
-
+// Si pas de connexion = affichage des projets sur le site
 function genererProjects(works) {
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
     const sectionGallery = document.querySelector(".gallery");
     // fiche projet
     const workElement = document.createElement("figure");
-
     // balises de la fiche
     const imageElement = document.createElement("img");
     imageElement.src = project.imageUrl;
@@ -126,7 +61,6 @@ function genererProjects(works) {
 genererProjects(works);
 
 // affichage des boutons
-
 const filters = document.querySelector("#filters");
 const gallery = document.querySelector(".gallery");
 // bouton "tous"
@@ -140,10 +74,8 @@ function genererButton(works) {
   });
   filters.appendChild(buttonAll);
 }
-
 genererButton(works);
 // boutons categorie
-
 function genererButtons(categories) {
   for (let i = 0; i < categories.length; i++) {
     const filter = categories[i];
@@ -167,10 +99,9 @@ function genererButtons(categories) {
 }
 genererButtons(categories);
 
-// creation du formulaire
+// creation du formulaire de connexion
 function createForm() {
   const formlogin = document.querySelector("main");
-
   const form = document.createElement("form");
   form.setAttribute("id", "form");
 
@@ -194,7 +125,6 @@ function createForm() {
 
   form.appendChild(labelEmail);
   form.appendChild(inputMail);
-
   // input password
   const inputPassword = document.createElement("input");
   inputPassword.classList = ("all-input", "password");
@@ -248,7 +178,6 @@ function createForm() {
       return true;
     }
   };
-
   // lien mot de passe oublié
   const forgotPassword = document.createElement("a");
   forgotPassword.href = "#";
@@ -267,7 +196,6 @@ navLogin.addEventListener("click", function () {
 //verification de la connexion
 const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
 const jsonData = JSON.stringify(data);
-
 function authenticatedSession() {
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
@@ -288,3 +216,87 @@ function authenticatedSession() {
     }
   });
 }
+// creation de la modale
+let modal = null;
+
+modal = document.querySelector(".modal");
+const editButton = document.querySelector(".the-third");
+//ouverture de la modale
+editButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  modal.style.display = null;
+  modal.removeAttribute("aria-hidden");
+  modal.addEventListener("click", closeModal);
+  modal
+    .querySelector(".button-close-modal")
+    .addEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
+});
+//fermeture de la modale
+const closeModal = function (event) {
+  if (modal === null) return;
+  event.preventDefault();
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
+  modal.removeEventListener("click", closeModal);
+  modal
+    .querySelector(".button-close-modal")
+    .removeEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .removeEventListener("click", stopPropagation);
+};
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
+//affichage des projets dans la modale
+function generateProjectsModal(works) {
+  for (let i = 0; i < works.length; i++) {
+    const projectsModal = works[i];
+    const editModal = document.querySelector(".edit-project");
+    const workModal = document.createElement("figure");
+    //affichage image
+    const picturesModal = document.createElement("img");
+    picturesModal.src = projectsModal.imageUrl;
+    picturesModal.crossOrigin = "anonymous";
+    picturesModal.alt = projectsModal.title;
+    picturesModal.className = "pictures-modal";
+    picturesModal.setAttribute("id", [i]);
+
+    //création des icones
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa-regular fa-trash-can";
+    const arrowsIcon = document.createElement("i");
+    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
+
+    editModal.appendChild(workModal);
+    workModal.appendChild(picturesModal);
+    picturesModal.parentNode.appendChild(deleteIcon);
+  }
+}
+generateProjectsModal(works);
+
+//supression des projets depuis la modale
+const editableList = document.querySelectorAll(".edit-project");
+const deletedButton = document.querySelectorAll(".fa-trash-can");
+deletedButton.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    const projectId = event.currentTarget;
+
+    fetch("http://localhost:5678/api/works{i}", {
+      method: "DELETE",
+      headers: {
+        Authorization: "bearer ${sessionStorage[token]}",
+        "content-Type": "application/json",
+      },
+    }).then(responses);
+    if (responses.ok) {
+      console.log(responses);
+
+      return projectId.parentElement.remove();
+    }
+  });
+});
