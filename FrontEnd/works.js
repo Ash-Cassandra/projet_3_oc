@@ -317,11 +317,9 @@ deletedButton.forEach((button) => {
       for (let i = 0; i < shape.length; i++) {
         if (!shape[i].classList.contains("shape-" + projectId)) {
           shape[i].remove();
-        } else {
-          shape[i].parentElement.style.display = "block";
+          modal = null;
         }
       }
     }
   });
 });
-console.log(sessionStorage.getItem("token"));
