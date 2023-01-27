@@ -205,10 +205,11 @@ function authenticatedSession() {
     body: jsonData,
   }).then(async (responses) => {
     let tokenData = await responses.json();
+
     if (responses.ok) {
       // si connexion ok = enregistrer le token & rediriger vers la page principale
-      sessionStorage.setItem("token", tokenData);
       sessionStorage.setItem("loggedIn", true);
+      sessionStorage.setItem("token", tokenData.token);
       window.location.replace("index.html");
     } else {
       console.log("erreur");
@@ -216,6 +217,7 @@ function authenticatedSession() {
     }
   });
 }
+console.log(sessionStorage.getItem.token);
 // creation de la modale
 let modal = null;
 
@@ -268,6 +270,7 @@ function generateProjectsModal(works) {
     //création des icones
     const deleteIcon = document.createElement("i");
     deleteIcon.className = "fa-regular fa-trash-can";
+    deleteIcon.setAttribute("dataId", works[i].id);
     const arrowsIcon = document.createElement("i");
     arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
 
@@ -284,19 +287,19 @@ const deletedButton = document.querySelectorAll(".fa-trash-can");
 deletedButton.forEach((button) => {
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    const projectId = event.currentTarget;
+    const projectId = event.currentTarget.getAttribute("dataId");
 
-    fetch("http://localhost:5678/api/works{i}", {
+    fetch("http://localhost:5678/api/works" + projectId, {
       method: "DELETE",
       headers: {
-        Authorization: "bearer ${sessionStorage[token]}",
+        Authorization: "Bearer" + sessionStorage[token],
         "content-Type": "application/json",
       },
     }).then(responses);
     if (responses.ok) {
       console.log(responses);
 
-      return projectId.parentElement.remove();
+      return event.currentTarget.parentElement.remove();
     }
   });
 });
