@@ -30,6 +30,15 @@ if (sessionStorage.getItem("loggedIn") === "true") {
     toModify.innerText = "modifier";
     const modifyIcon = document.createElement("i");
     modifyIcon.className = "fa-regular fa-pen-to-square";
+    //modification login => logout
+    const loginbtn = document.querySelector(".login");
+    loginbtn.innerText = "logout";
+    loginbtn.addEventListener("click", function () {
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("loggedIn");
+      // redirection vers la page de connexion
+      location.replace("index.html");
+    });
 
     link.appendChild(modifyIcon);
     link.appendChild(toModify);
@@ -43,6 +52,10 @@ function genererProjects(works) {
     const sectionGallery = document.querySelector(".gallery");
     // fiche projet
     const workElement = document.createElement("figure");
+    workElement.classList.add("shape-" + project.id, "shape");
+
+    console.log(workElement);
+
     // balises de la fiche
     const imageElement = document.createElement("img");
     imageElement.src = project.imageUrl;
@@ -217,7 +230,6 @@ function authenticatedSession() {
     }
   });
 }
-console.log(sessionStorage.getItem.token);
 // creation de la modale
 let modal = null;
 
@@ -268,8 +280,9 @@ function generateProjectsModal(works) {
     picturesModal.setAttribute("id", [i]);
 
     //création des icones
-    const deleteIcon = document.createElement("i");
-    deleteIcon.className = "fa-regular fa-trash-can";
+    const deleteIcon = document.createElement("img");
+    deleteIcon.className = "fa-trash-can";
+    deleteIcon.setAttribute("src", "assets/icons/vector.svg");
     deleteIcon.setAttribute("dataId", works[i].id);
     const arrowsIcon = document.createElement("i");
     arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
@@ -282,24 +295,33 @@ function generateProjectsModal(works) {
 generateProjectsModal(works);
 
 //supression des projets depuis la modale
-const editableList = document.querySelectorAll(".edit-project");
+
 const deletedButton = document.querySelectorAll(".fa-trash-can");
 deletedButton.forEach((button) => {
   button.addEventListener("click", function (event) {
     event.preventDefault();
     const projectId = event.currentTarget.getAttribute("dataId");
-
-    fetch("http://localhost:5678/api/works" + projectId, {
+    console.log(projectId);
+    fetch(`http://localhost:5678/api/works/${projectId}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer" + sessionStorage[token],
+        Authorization: `Bearer ${sessionStorage["token"]}`,
         "content-Type": "application/json",
       },
     }).then(responses);
     if (responses.ok) {
       console.log(responses);
+      //selection des figures
+      let shape = document.querySelectorAll(".shape");
 
-      return event.currentTarget.parentElement.remove();
+      for (let i = 0; i < shape.length; i++) {
+        if (!shape[i].classList.contains("shape-" + projectId)) {
+          shape[i].remove();
+        } else {
+          shape[i].parentElement.style.display = "block";
+        }
+      }
     }
   });
 });
+console.log(sessionStorage.getItem("token"));

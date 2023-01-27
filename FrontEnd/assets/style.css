@@ -304,6 +304,9 @@ footer nav ul {
 		border: none;
 		background-color: #FFF;
 	}
+		.box-modal figure {
+			position: relative;
+		}
 		.edit-project {
 			width: 90%;
 			display: flex;
@@ -317,14 +320,9 @@ footer nav ul {
 				object-fit: cover;
 			}
 			.fa-trash-can {
-				background-color: #000;
-				color: #FFF;
-				border: 1px solid #000;
-				border-radius: 25%;
-				padding: 2px;
 				position: absolute;
-				z-index: 1;
-			}
+				right: 2px;
+				top: 2px;			}
 	.upload-picture {
 		border: 1px solid #1D6154;
 		border-radius: 60px;
