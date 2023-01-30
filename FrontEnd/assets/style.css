@@ -186,7 +186,7 @@ li:hover {
 	flex-direction: column;
 }
 
-#contact input, #form input {
+#contact input, #form input, .input-title, .select-category {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
@@ -337,16 +337,16 @@ footer nav ul {
 		color: #D65353;
 	}
 /*-- modale-2 --*/
-	.back-previous-button {
-		position: absolute;
-		top: 12px;
-		left: 12px;
-		border: none;
-		background-color: #FFF;
-	}
-	.icon-back {
-		width: 15px;
-	}
+.back-previous-button {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	border: none;
+	background-color: #FFF;
+}
+.icon-back {
+	width: 15px;
+}
 .title-modal-2 {
 	position: absolute;
 	top: 40px;
@@ -374,3 +374,13 @@ footer nav ul {
 		background-color: #CBD6DC;
 		color: #306685;
 	}
+.input-title, .select-category {
+	width: 65%;
+}
+.label-title, .label-category {
+	width: 65%;
+	display: block;
+	justify-content: left;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}

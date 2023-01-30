@@ -3,7 +3,7 @@ const works = await responses.json();
 
 const responsesCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responsesCategories.json();
-
+const categoryNames = categories.map((category) => category.name);
 document.querySelector(".gallery").innerHTML = "";
 
 //verification du statut de connexion
@@ -408,18 +408,23 @@ inputTitle.setAttribute("name", "title");
 const labeltitle = document.createElement("label");
 labeltitle.className = "label-title";
 labeltitle.setAttribute("for", "name");
-labeltitle.innerText = "titre";
+labeltitle.innerText = "Titre";
 
 const inputCategory = document.createElement("select");
 inputCategory.className = "select-category";
 inputCategory.setAttribute("type", "select");
 inputCategory.setAttribute("name", "category");
+categoryNames.forEach((category) => {
+  const optionInputCat = document.createElement("option");
+  optionInputCat.value = category;
+  optionInputCat.textContent = category;
+  inputCategory.appendChild(optionInputCat);
+});
 
 const labelCategory = document.createElement("label");
 labelCategory.className = "label-category";
 labelCategory.setAttribute("for", "name");
-labelCategory.innerText = "categorie";
-labelCategory.setAttribute("option", "objet", "restaurant");
+labelCategory.innerText = "Categorie";
 
 boxModal2.appendChild(headerModal2);
 boxModal2.appendChild(titleModal2);
