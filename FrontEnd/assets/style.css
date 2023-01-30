@@ -351,6 +351,12 @@ footer nav ul {
 	position: absolute;
 	top: 40px;
 }
+.form-add-project {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
 .article-upload {
 	display: flex;
 	flex-direction: column;

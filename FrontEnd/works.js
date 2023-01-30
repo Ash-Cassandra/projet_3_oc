@@ -9,35 +9,33 @@ document.querySelector(".gallery").innerHTML = "";
 //verification du statut de connexion
 if (sessionStorage.getItem("loggedIn") === "true") {
   //si connexion ok afficher la page utilisateur
-  //creation de la bannière
-  const header = document.querySelector("header");
+
+  const header = document.querySelector("header"); //creation de la bannière
   const banner = document.createElement("nav");
   banner.className = "banner";
   header.appendChild(banner);
-
   const bannerText = document.createElement("p");
   bannerText.innerText = "Mode édition";
   banner.appendChild(bannerText);
-
   const bannerButton = document.createElement("button");
   bannerButton.innerText = "publier les changements";
   bannerButton.className = "banner-button";
   banner.appendChild(bannerButton);
-  //ajout des liens "modifier"
-  const linkToModify = document.querySelectorAll(".to-modify");
+
+  const linkToModify = document.querySelectorAll(".to-modify"); //ajout des liens "modifier"
   linkToModify.forEach((link) => {
     const toModify = document.createElement("a");
     toModify.innerText = "modifier";
     const modifyIcon = document.createElement("i");
     modifyIcon.className = "fa-regular fa-pen-to-square";
-    //modification login => logout
-    const loginbtn = document.querySelector(".login");
+
+    const loginbtn = document.querySelector(".login"); //modification login => logout
     loginbtn.innerText = "logout";
     loginbtn.addEventListener("click", function () {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("loggedIn");
-      // redirection vers la page de connexion
-      location.replace("index.html");
+
+      location.replace("index.html"); // redirection vers la page de connexion
     });
 
     link.appendChild(modifyIcon);
@@ -50,20 +48,16 @@ function genererProjects(works) {
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
     const sectionGallery = document.querySelector(".gallery");
-    // fiche projet
-    const workElement = document.createElement("figure");
+
+    const workElement = document.createElement("figure"); // fiche projet
     workElement.classList.add("shape-" + project.id, "shape");
 
-    console.log(workElement);
-
-    // balises de la fiche
-    const imageElement = document.createElement("img");
+    const imageElement = document.createElement("img"); // image de la fiche
     imageElement.src = project.imageUrl;
     imageElement.crossOrigin = "anonymous";
     imageElement.alt = project.title;
     imageElement.classList.add("category-" + project.categoryId, "img");
-
-    const titleElement = document.createElement("h2");
+    const titleElement = document.createElement("h2"); //titre de la fiche
     titleElement.innerText = project.title;
 
     sectionGallery.appendChild(workElement);
@@ -76,8 +70,9 @@ genererProjects(works);
 // affichage des boutons
 const filters = document.querySelector("#filters");
 const gallery = document.querySelector(".gallery");
-// bouton "tous"
+
 function genererButton(works) {
+  // bouton "tous"
   const buttonAll = document.createElement("button");
   buttonAll.className = "filter";
   buttonAll.innerText = "Tous";
@@ -88,8 +83,9 @@ function genererButton(works) {
   filters.appendChild(buttonAll);
 }
 genererButton(works);
-// boutons categorie
+
 function genererButtons(categories) {
+  // boutons categorie
   for (let i = 0; i < categories.length; i++) {
     const filter = categories[i];
     const buttons = document.createElement("button");
@@ -117,42 +113,38 @@ function createForm() {
   const formlogin = document.querySelector("main");
   const form = document.createElement("form");
   form.setAttribute("id", "form");
-
   formlogin.appendChild(form);
-  // titre du formulaire
-  const labelName = document.createElement("label");
+
+  const labelName = document.createElement("label"); // titre du formulaire
   labelName.className = "form-title";
   labelName.setAttribute("for", "nom");
   labelName.innerText = "Log In";
   form.appendChild(labelName);
-  // input e-mail
-  const inputMail = document.createElement("input");
+  const inputMail = document.createElement("input"); // input e-mail
   inputMail.classList = ("all-input", "inputMail");
   inputMail.setAttribute("type", "email");
   inputMail.setAttribute("name", "email");
-
-  const labelEmail = document.createElement("label");
+  const labelEmail = document.createElement("label"); //label e-mail
   labelEmail.className = "input-title";
   labelEmail.setAttribute("for", "name");
   labelEmail.innerText = "E-mail";
 
   form.appendChild(labelEmail);
   form.appendChild(inputMail);
-  // input password
-  const inputPassword = document.createElement("input");
+
+  const inputPassword = document.createElement("input"); // input password
   inputPassword.classList = ("all-input", "password");
   inputPassword.setAttribute("type", "password");
   inputPassword.setAttribute("name", "password");
-
-  const labelPassword = document.createElement("label");
+  const labelPassword = document.createElement("label"); //label password
   labelPassword.className = "input-title";
   labelPassword.setAttribute("for", "name");
   labelPassword.innerText = " Mot de passe";
 
   form.appendChild(labelPassword);
   form.appendChild(inputPassword);
-  // bouton se connecter
-  const buttonLogin = document.createElement("input");
+
+  const buttonLogin = document.createElement("input"); // bouton se connecter
   buttonLogin.setAttribute("type", "submit");
   buttonLogin.setAttribute("value", "Se connecter");
   buttonLogin.setAttribute("id", "buttonLogin");
@@ -180,7 +172,6 @@ function createForm() {
       return true;
     }
   };
-
   // verification de la validité du mot de passe
   const validPassword = function () {
     //RegEx du mot de passe
@@ -220,12 +211,12 @@ function authenticatedSession() {
     let tokenData = await responses.json();
 
     if (responses.ok) {
-      // si connexion ok = enregistrer le token & rediriger vers la page principale
-      sessionStorage.setItem("loggedIn", true);
-      sessionStorage.setItem("token", tokenData.token);
-      window.location.replace("index.html");
+      // si connexion ok =
+      sessionStorage.setItem("loggedIn", true); //enregistrer les infos de connexion
+      sessionStorage.setItem("token", tokenData.token); //enregistrer le token
+      window.location.replace("index.html"); //rediriger vers la page principale
     } else {
-      console.log("erreur");
+      console.log("erreur"); //sinon =
       alert("Erreur dans l’identifiant ou le mot de passe");
     }
   });
@@ -250,32 +241,24 @@ editButton.addEventListener("click", function (event) {
 });
 //fermeture de la modale
 const closeModal = function (event) {
-  if (modal === null) return;
   event.preventDefault();
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", "true");
-  modal.removeEventListener("click", closeModal);
-  modal
+  let selectedModal;
+  if (modal !== null) {
+    selectedModal = modal;
+  } else if (modal2 !== null) {
+    selectedModal = modal2;
+  }
+  selectedModal.style.display = "none";
+  selectedModal.setAttribute("aria-hidden", "true");
+  selectedModal.removeEventListener("click", closeModal);
+  selectedModal
     .querySelector(".button-close-modal")
     .removeEventListener("click", closeModal);
-  modal
+  selectedModal
     .querySelector(".stop-propagation")
     .removeEventListener("click", stopPropagation);
 };
-// a corriger !!!!!
-const closeModal2 = function (event) {
-  if (modal2 === null) return;
-  event.preventDefault();
-  modal2.style.display = "none";
-  modal2.setAttribute("aria-hidden", "true");
-  modal2.removeEventListener("click", closeModal);
-  modal2
-    .querySelector(".button-close-modal")
-    .removeEventListener("click", closeModal);
-  modal2
-    .querySelector(".stop-propagation")
-    .removeEventListener("click", stopPropagation);
-};
+
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
@@ -285,21 +268,19 @@ function generateProjectsModal(works) {
   for (let i = 0; i < works.length; i++) {
     const projectsModal = works[i];
     const editModal = document.querySelector(".edit-project");
-    const workModal = document.createElement("figure");
-    //affichage image
-    const picturesModal = document.createElement("img");
+    const workModal = document.createElement("figure"); //figure des projets
+
+    const picturesModal = document.createElement("img"); //affichage image
     picturesModal.src = projectsModal.imageUrl;
     picturesModal.crossOrigin = "anonymous";
     picturesModal.alt = projectsModal.title;
     picturesModal.className = "pictures-modal";
     picturesModal.setAttribute("id", [i]);
-
-    //création des icones
-    const deleteIcon = document.createElement("img");
+    const deleteIcon = document.createElement("img"); //création de l'icone supprimer
     deleteIcon.className = "fa-trash-can";
     deleteIcon.setAttribute("src", "assets/icons/vector.svg");
     deleteIcon.setAttribute("dataId", works[i].id);
-    const arrowsIcon = document.createElement("i");
+    const arrowsIcon = document.createElement("i"); //creation de l'icone fleches
     arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
 
     editModal.appendChild(workModal);
@@ -310,7 +291,6 @@ function generateProjectsModal(works) {
 generateProjectsModal(works);
 
 //supression des projets depuis la modale
-
 const deletedButton = document.querySelectorAll(".fa-trash-can");
 deletedButton.forEach((button) => {
   button.addEventListener("click", function (event) {
@@ -332,21 +312,15 @@ deletedButton.forEach((button) => {
       for (let i = 0; i < shape.length; i++) {
         if (!shape[i].classList.contains("shape-" + projectId)) {
           shape[i].remove();
-          modal = null;
         }
       }
     }
   });
 });
 
-//nouveau code
-//
-//
-//
 //creation de la modale 2
 
 let modal2 = document.querySelector(".modal-2");
-
 let boxModal2 = document.querySelector(".box-modal-2");
 
 const headerModal2 = document.createElement("header"); //en-tête (boutons retour et fermer)
@@ -354,7 +328,6 @@ headerModal2.className = "header-modal-2";
 
 const closeButton = document.createElement("button"); //bouton fermer
 closeButton.className = "button-close-modal";
-closeButton.addEventListener("click", closeModal2);
 const iconClose = document.createElement("i");
 iconClose.classList.add("fa-solid", "fa-xmark");
 
@@ -367,6 +340,14 @@ backPreviousButton.addEventListener("click", function (event) {
   event.preventDefault();
   modal2.style.display = "none";
   modal.style.display = null;
+  modal.removeAttribute("aria-hidden");
+  modal.addEventListener("click", closeModal);
+  modal
+    .querySelector(".button-close-modal")
+    .addEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
 });
 const iconBack = document.createElement("img");
 iconBack.setAttribute("src", "assets/icons/arrowBack.svg");
@@ -375,18 +356,21 @@ iconBack.className = "icon-back";
 backPreviousButton.appendChild(iconBack);
 headerModal2.appendChild(backPreviousButton);
 
+const formAddProject = document.createElement("form"); //création du formulaire
+formAddProject.className = "form-add-project";
+
 const titleModal2 = document.createElement("h1"); //titre de la modale 2
 titleModal2.innerText = " Ajout photo";
 titleModal2.className = "title-modal-2";
 
-const articleUpload = document.createElement("article");
+const articleUpload = document.createElement("article"); //création de l'encadrer ajouter photo
 articleUpload.className = "article-upload";
 
 const imgModal2 = document.createElement("img");
 imgModal2.setAttribute("src", "assets/icons/img-modal-2.svg");
 imgModal2.className = "img-modal-2";
 
-const uploadPicture = document.createElement("input"); //bouton telechrger photo
+const uploadPicture = document.createElement("input"); //bouton telecharger photo
 uploadPicture.setAttribute("type", "submit");
 uploadPicture.setAttribute("value", "+ ajouter photo");
 uploadPicture.setAttribute("id", "add-picture");
@@ -399,47 +383,76 @@ uploadFormat.innerText = "jpg, png : 4mo max";
 articleUpload.appendChild(imgModal2);
 articleUpload.appendChild(uploadPicture);
 articleUpload.appendChild(uploadFormat);
+formAddProject.appendChild(articleUpload);
 
-const inputTitle = document.createElement("input");
+const inputTitle = document.createElement("input"); //titre de l'image
 inputTitle.className = "input-title";
 inputTitle.setAttribute("type", "text");
 inputTitle.setAttribute("name", "title");
 
-const labeltitle = document.createElement("label");
+const labeltitle = document.createElement("label"); //label titre image
 labeltitle.className = "label-title";
 labeltitle.setAttribute("for", "name");
 labeltitle.innerText = "Titre";
 
-const inputCategory = document.createElement("select");
+const inputCategory = document.createElement("select"); // selection de la categorie
 inputCategory.className = "select-category";
 inputCategory.setAttribute("type", "select");
 inputCategory.setAttribute("name", "category");
 categoryNames.forEach((category) => {
-  const optionInputCat = document.createElement("option");
+  const optionInputCat = document.createElement("option"); // creation des options "categorie"
   optionInputCat.value = category;
   optionInputCat.textContent = category;
   inputCategory.appendChild(optionInputCat);
-});
 
-const labelCategory = document.createElement("label");
-labelCategory.className = "label-category";
-labelCategory.setAttribute("for", "name");
-labelCategory.innerText = "Categorie";
+  const labelCategory = document.createElement("label"); // label selection categorie
+  labelCategory.className = "label-category";
+  labelCategory.setAttribute("for", "name");
+  labelCategory.innerText = "Categorie";
 
-boxModal2.appendChild(headerModal2);
-boxModal2.appendChild(titleModal2);
-boxModal2.appendChild(articleUpload);
-boxModal2.appendChild(labeltitle);
-boxModal2.appendChild(inputTitle);
-boxModal2.appendChild(labelCategory);
-boxModal2.appendChild(inputCategory);
-modal2.appendChild(boxModal2);
+  formAddProject.appendChild(titleModal2);
+  formAddProject.appendChild(labeltitle);
+  formAddProject.appendChild(inputTitle);
+  formAddProject.appendChild(labelCategory);
+  formAddProject.appendChild(inputCategory);
+  boxModal2.appendChild(headerModal2);
+  boxModal2.appendChild(formAddProject);
+  modal2.appendChild(boxModal2);
 
-const openModal2 = document.querySelector(".upload-picture");
-//ouverture de la modale 2
-openModal2.addEventListener("click", function (event) {
-  event.preventDefault();
-  console.log("click ok");
-  modal.style.display = "none";
-  modal2.style.display = null;
+  const openModal2 = document.querySelector(".upload-picture");
+  //ouverture de la modale 2
+  openModal2.addEventListener("click", function (event) {
+    event.preventDefault();
+    console.log("click ok");
+    modal.style.display = "none";
+    modal2.style.display = null;
+    modal2.removeAttribute("aria-hidden");
+    modal2.addEventListener("click", closeModal);
+    modal2
+      .querySelector(".button-close-modal")
+      .addEventListener("click", closeModal);
+    modal2
+      .querySelector(".stop-propagation")
+      .addEventListener("click", stopPropagation);
+  });
+  //nouveau code
+  //
+  //
+  //
+  //const formData
+  const validateButton = document.createElement("button");
+  validateButton.innerText = "Valider";
+  validateButton.className = "validate-button";
+  validateButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sessionStorage["token"]}`,
+        accept: "application/json",
+        "content-type": "multipart/form-data",
+      },
+      body: FormData,
+    });
+  });
 });
