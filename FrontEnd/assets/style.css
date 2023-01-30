@@ -211,6 +211,12 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
+#form .label-login {
+	display: flex;
+	justify-content: left;
+	width: 100%;
+	padding: 0;
+}
 
 #form a {
 	font-family: 'Work sans', 'sans-serif';
@@ -372,7 +378,7 @@ footer nav ul {
 	.img-modal-2 {
 		width: 15%;
 	}
-	#add-picture {
+	#add-picture, .validate-button {
 		border: 1px solid #CBD6DC;
 		border-radius: 60px;
 		padding: 8px 40px;
@@ -380,10 +386,11 @@ footer nav ul {
 		background-color: #CBD6DC;
 		color: #306685;
 	}
-.input-title, .select-category {
+	
+ .select-category, .input-title{
 	width: 65%;
 }
-.label-title, .label-category {
+.label-title,.label-login, .label-category {
 	width: 65%;
 	display: block;
 	justify-content: left;

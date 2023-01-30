@@ -125,7 +125,7 @@ function createForm() {
   inputMail.setAttribute("type", "email");
   inputMail.setAttribute("name", "email");
   const labelEmail = document.createElement("label"); //label e-mail
-  labelEmail.className = "input-title";
+  labelEmail.className = "label-login";
   labelEmail.setAttribute("for", "name");
   labelEmail.innerText = "E-mail";
 
@@ -137,7 +137,7 @@ function createForm() {
   inputPassword.setAttribute("type", "password");
   inputPassword.setAttribute("name", "password");
   const labelPassword = document.createElement("label"); //label password
-  labelPassword.className = "input-title";
+  labelPassword.className = "label-login";
   labelPassword.setAttribute("for", "name");
   labelPassword.innerText = " Mot de passe";
 
@@ -383,17 +383,21 @@ uploadFormat.innerText = "jpg, png : 4mo max";
 articleUpload.appendChild(imgModal2);
 articleUpload.appendChild(uploadPicture);
 articleUpload.appendChild(uploadFormat);
-formAddProject.appendChild(articleUpload);
+
+const labeltitle = document.createElement("label"); //label titre image
+labeltitle.className = "label-title";
+labeltitle.setAttribute("for", "name");
+labeltitle.innerText = "Titre";
 
 const inputTitle = document.createElement("input"); //titre de l'image
 inputTitle.className = "input-title";
 inputTitle.setAttribute("type", "text");
 inputTitle.setAttribute("name", "title");
 
-const labeltitle = document.createElement("label"); //label titre image
-labeltitle.className = "label-title";
-labeltitle.setAttribute("for", "name");
-labeltitle.innerText = "Titre";
+const labelCategory = document.createElement("label"); // label selection categorie
+labelCategory.className = "label-category";
+labelCategory.setAttribute("for", "name");
+labelCategory.innerText = "Catégorie";
 
 const inputCategory = document.createElement("select"); // selection de la categorie
 inputCategory.className = "select-category";
@@ -404,55 +408,52 @@ categoryNames.forEach((category) => {
   optionInputCat.value = category;
   optionInputCat.textContent = category;
   inputCategory.appendChild(optionInputCat);
-
-  const labelCategory = document.createElement("label"); // label selection categorie
-  labelCategory.className = "label-category";
-  labelCategory.setAttribute("for", "name");
-  labelCategory.innerText = "Categorie";
-
-  formAddProject.appendChild(titleModal2);
-  formAddProject.appendChild(labeltitle);
-  formAddProject.appendChild(inputTitle);
-  formAddProject.appendChild(labelCategory);
-  formAddProject.appendChild(inputCategory);
-  boxModal2.appendChild(headerModal2);
-  boxModal2.appendChild(formAddProject);
-  modal2.appendChild(boxModal2);
-
-  const openModal2 = document.querySelector(".upload-picture");
-  //ouverture de la modale 2
-  openModal2.addEventListener("click", function (event) {
-    event.preventDefault();
-    console.log("click ok");
-    modal.style.display = "none";
-    modal2.style.display = null;
-    modal2.removeAttribute("aria-hidden");
-    modal2.addEventListener("click", closeModal);
-    modal2
-      .querySelector(".button-close-modal")
-      .addEventListener("click", closeModal);
-    modal2
-      .querySelector(".stop-propagation")
-      .addEventListener("click", stopPropagation);
+});
+const validateButton = document.createElement("input");
+validateButton.setAttribute("type", "submit");
+validateButton.setAttribute = ("value", "Valider");
+validateButton.className = "validate-button";
+validateButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionStorage["token"]}`,
+      accept: "application/json",
+      "content-type": "multipart/form-data",
+    },
+    body: FormData,
   });
-  //nouveau code
-  //
-  //
-  //
-  //const formData
-  const validateButton = document.createElement("button");
-  validateButton.innerText = "Valider";
-  validateButton.className = "validate-button";
-  validateButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${sessionStorage["token"]}`,
-        accept: "application/json",
-        "content-type": "multipart/form-data",
-      },
-      body: FormData,
-    });
-  });
+});
+formAddProject.appendChild(titleModal2);
+formAddProject.appendChild(articleUpload);
+formAddProject.appendChild(labeltitle);
+formAddProject.appendChild(inputTitle);
+formAddProject.appendChild(labelCategory);
+formAddProject.appendChild(inputCategory);
+
+formAddProject.appendChild(validateButton);
+
+//
+//
+
+boxModal2.appendChild(headerModal2);
+boxModal2.appendChild(formAddProject);
+modal2.appendChild(boxModal2);
+
+const openModal2 = document.querySelector(".upload-picture");
+//ouverture de la modale 2
+openModal2.addEventListener("click", function (event) {
+  event.preventDefault();
+  console.log("click ok");
+  modal.style.display = "none";
+  modal2.style.display = null;
+  modal2.removeAttribute("aria-hidden");
+  modal2.addEventListener("click", closeModal);
+  modal2
+    .querySelector(".button-close-modal")
+    .addEventListener("click", closeModal);
+  modal2
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
 });
