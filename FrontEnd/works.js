@@ -262,9 +262,24 @@ const closeModal = function (event) {
     .querySelector(".stop-propagation")
     .removeEventListener("click", stopPropagation);
 };
+// a corriger !!!!!
+const closeModal2 = function (event) {
+  if (modal2 === null) return;
+  event.preventDefault();
+  modal2.style.display = "none";
+  modal2.setAttribute("aria-hidden", "true");
+  modal2.removeEventListener("click", closeModal);
+  modal2
+    .querySelector(".button-close-modal")
+    .removeEventListener("click", closeModal);
+  modal2
+    .querySelector(".stop-propagation")
+    .removeEventListener("click", stopPropagation);
+};
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
+
 //affichage des projets dans la modale
 function generateProjectsModal(works) {
   for (let i = 0; i < works.length; i++) {
@@ -322,4 +337,104 @@ deletedButton.forEach((button) => {
       }
     }
   });
+});
+
+//nouveau code
+//
+//
+//
+//creation de la modale 2
+
+let modal2 = document.querySelector(".modal-2");
+
+let boxModal2 = document.querySelector(".box-modal-2");
+
+const headerModal2 = document.createElement("header"); //en-tête (boutons retour et fermer)
+headerModal2.className = "header-modal-2";
+
+const closeButton = document.createElement("button"); //bouton fermer
+closeButton.className = "button-close-modal";
+closeButton.addEventListener("click", closeModal2);
+const iconClose = document.createElement("i");
+iconClose.classList.add("fa-solid", "fa-xmark");
+
+closeButton.appendChild(iconClose);
+headerModal2.appendChild(closeButton);
+
+const backPreviousButton = document.createElement("button"); //bouton retour à la modale 1
+backPreviousButton.className = "back-previous-button";
+backPreviousButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  modal2.style.display = "none";
+  modal.style.display = null;
+});
+const iconBack = document.createElement("img");
+iconBack.setAttribute("src", "assets/icons/arrowBack.svg");
+iconBack.className = "icon-back";
+
+backPreviousButton.appendChild(iconBack);
+headerModal2.appendChild(backPreviousButton);
+
+const titleModal2 = document.createElement("h1"); //titre de la modale 2
+titleModal2.innerText = " Ajout photo";
+titleModal2.className = "title-modal-2";
+
+const articleUpload = document.createElement("article");
+articleUpload.className = "article-upload";
+
+const imgModal2 = document.createElement("img");
+imgModal2.setAttribute("src", "assets/icons/img-modal-2.svg");
+imgModal2.className = "img-modal-2";
+
+const uploadPicture = document.createElement("input"); //bouton telechrger photo
+uploadPicture.setAttribute("type", "submit");
+uploadPicture.setAttribute("value", "+ ajouter photo");
+uploadPicture.setAttribute("id", "add-picture");
+//uploadPicture.addEventListener("");
+//fonction //
+
+const uploadFormat = document.createElement("p");
+uploadFormat.innerText = "jpg, png : 4mo max";
+
+articleUpload.appendChild(imgModal2);
+articleUpload.appendChild(uploadPicture);
+articleUpload.appendChild(uploadFormat);
+
+const inputTitle = document.createElement("input");
+inputTitle.className = "input-title";
+inputTitle.setAttribute("type", "text");
+inputTitle.setAttribute("name", "title");
+
+const labeltitle = document.createElement("label");
+labeltitle.className = "label-title";
+labeltitle.setAttribute("for", "name");
+labeltitle.innerText = "titre";
+
+const inputCategory = document.createElement("select");
+inputCategory.className = "select-category";
+inputCategory.setAttribute("type", "select");
+inputCategory.setAttribute("name", "category");
+
+const labelCategory = document.createElement("label");
+labelCategory.className = "label-category";
+labelCategory.setAttribute("for", "name");
+labelCategory.innerText = "categorie";
+labelCategory.setAttribute("option", "objet", "restaurant");
+
+boxModal2.appendChild(headerModal2);
+boxModal2.appendChild(titleModal2);
+boxModal2.appendChild(articleUpload);
+boxModal2.appendChild(labeltitle);
+boxModal2.appendChild(inputTitle);
+boxModal2.appendChild(labelCategory);
+boxModal2.appendChild(inputCategory);
+modal2.appendChild(boxModal2);
+
+const openModal2 = document.querySelector(".upload-picture");
+//ouverture de la modale 2
+openModal2.addEventListener("click", function (event) {
+  event.preventDefault();
+  console.log("click ok");
+  modal.style.display = "none";
+  modal2.style.display = null;
 });

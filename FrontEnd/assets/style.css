@@ -266,7 +266,7 @@ footer nav ul {
   color: black;
 }
 /* modal */
-.modal {	
+.modal, .modal-2 {	
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -277,7 +277,7 @@ footer nav ul {
 	height: 100%;
 	background: rgba(0, 0, 0, 0.4);	
 }
-	.box-modal {
+	.box-modal, .box-modal-2{
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -286,11 +286,13 @@ footer nav ul {
 		max-width: calc(100vw - 10px);
 		max-height: calc(100vh - 30px);
 		padding: 20px;
+		border: 1px solid #FFF;
+		border-radius: 10px;
 		background-color: #FFF;
 		position: relative;
 
 	}
-	.title-modal {
+	.title-modal, .title-modal-2 {
 		font-weight: 'Work Sans';
 		font-weight: 400;
 		font-size: 26px;
@@ -333,4 +335,42 @@ footer nav ul {
 	}
 	.delete-gallery {
 		color: #D65353;
+	}
+/*-- modale-2 --*/
+	.back-previous-button {
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		border: none;
+		background-color: #FFF;
+	}
+	.icon-back {
+		width: 15px;
+	}
+.title-modal-2 {
+	position: absolute;
+	top: 40px;
+}
+.article-upload {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 60%;
+	height: 150px;
+	padding: 20px;
+	border: 1px solid #E8F1F6;
+	border-radius: 3px ;
+	background-color: #E8F1F6;
+}
+	.img-modal-2 {
+		width: 15%;
+	}
+	#add-picture {
+		border: 1px solid #CBD6DC;
+		border-radius: 60px;
+		padding: 8px 40px;
+		margin: 15px 0 10px 0;
+		background-color: #CBD6DC;
+		color: #306685;
 	}
