@@ -231,7 +231,6 @@ editButton.addEventListener("click", function (event) {
   event.preventDefault();
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
-  modal.addEventListener("click", closeModal);
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
@@ -240,8 +239,7 @@ editButton.addEventListener("click", function (event) {
     .addEventListener("click", stopPropagation);
 });
 //fermeture de la modale
-const closeModal = function (event) {
-  event.preventDefault();
+const closeModal = function () {
   let selectedModal;
   if (modal !== null) {
     selectedModal = modal;
@@ -263,7 +261,7 @@ const stopPropagation = function (event) {
   event.stopPropagation();
 };
 
-//affichage des projets dans la modale
+//affichage des projets dans la modale 1
 function generateProjectsModal(works) {
   for (let i = 0; i < works.length; i++) {
     const projectsModal = works[i];
@@ -290,7 +288,7 @@ function generateProjectsModal(works) {
 }
 generateProjectsModal(works);
 
-//supression des projets depuis la modale
+//supression des projets depuis la modale 1
 const deletedButton = document.querySelectorAll(".fa-trash-can");
 deletedButton.forEach((button) => {
   button.addEventListener("click", function (event) {
@@ -319,8 +317,8 @@ deletedButton.forEach((button) => {
 });
 
 //creation de la modale 2
-
-let modal2 = document.querySelector(".modal-2");
+let modal2 = null;
+modal2 = document.querySelector(".modal-2");
 let boxModal2 = document.querySelector(".box-modal-2");
 
 const headerModal2 = document.createElement("header"); //en-tête (boutons retour et fermer)
@@ -328,6 +326,7 @@ headerModal2.className = "header-modal-2";
 
 const closeButton = document.createElement("button"); //bouton fermer
 closeButton.className = "button-close-modal";
+closeButton.addEventListener("click", closeModal);
 const iconClose = document.createElement("i");
 iconClose.classList.add("fa-solid", "fa-xmark");
 
@@ -349,6 +348,7 @@ backPreviousButton.addEventListener("click", function (event) {
     .querySelector(".stop-propagation")
     .addEventListener("click", stopPropagation);
 });
+
 const iconBack = document.createElement("img");
 iconBack.setAttribute("src", "assets/icons/arrowBack.svg");
 iconBack.className = "icon-back";
@@ -371,17 +371,26 @@ imgModal2.setAttribute("src", "assets/icons/img-modal-2.svg");
 imgModal2.className = "img-modal-2";
 
 const uploadPicture = document.createElement("input"); //bouton telecharger photo
-uploadPicture.setAttribute("type", "submit");
-uploadPicture.setAttribute("value", "+ ajouter photo");
-uploadPicture.setAttribute("id", "add-picture");
-//uploadPicture.addEventListener("");
-//fonction //
+uploadPicture.setAttribute("type", "file");
+uploadPicture.setAttribute("id", "buttonFile");
+uploadPicture.addEventListener("change", function () {
+  validatePicture();
+});
+
+const labelUploadPicture = document.createElement("label"); //label du bouton(apparence du bouton)
+labelUploadPicture.innerText = "+ ajouter photo";
+labelUploadPicture.setAttribute("id", "add-picture");
+//transfert du click sur le button
+labelUploadPicture.addEventListener("click", function () {
+  uploadPicture.click();
+});
 
 const uploadFormat = document.createElement("p");
 uploadFormat.innerText = "jpg, png : 4mo max";
 
 articleUpload.appendChild(imgModal2);
 articleUpload.appendChild(uploadPicture);
+articleUpload.appendChild(labelUploadPicture);
 articleUpload.appendChild(uploadFormat);
 
 const labeltitle = document.createElement("label"); //label titre image
@@ -393,6 +402,7 @@ const inputTitle = document.createElement("input"); //titre de l'image
 inputTitle.className = "input-title";
 inputTitle.setAttribute("type", "text");
 inputTitle.setAttribute("name", "title");
+inputTitle.required = true;
 
 const labelCategory = document.createElement("label"); // label selection categorie
 labelCategory.className = "label-category";
@@ -409,51 +419,112 @@ categoryNames.forEach((category) => {
   optionInputCat.textContent = category;
   inputCategory.appendChild(optionInputCat);
 });
-const validateButton = document.createElement("input");
-validateButton.setAttribute("type", "submit");
-validateButton.setAttribute = ("value", "Valider");
-validateButton.className = "validate-button";
-validateButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  fetch("http://localhost:5678/api/works", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${sessionStorage["token"]}`,
-      accept: "application/json",
-      "content-type": "multipart/form-data",
-    },
-    body: FormData,
-  });
-});
+const optionDefault = document.createElement("option");
+optionDefault.value = "";
+optionDefault.textContent = "-- selectionnez une catégorie.--";
+optionDefault.selected = true;
+inputCategory.appendChild(optionDefault);
+
+//ajout du formulaire sur la page Modale 2
 formAddProject.appendChild(titleModal2);
 formAddProject.appendChild(articleUpload);
 formAddProject.appendChild(labeltitle);
 formAddProject.appendChild(inputTitle);
 formAddProject.appendChild(labelCategory);
 formAddProject.appendChild(inputCategory);
-
-formAddProject.appendChild(validateButton);
-
-//
-//
-
 boxModal2.appendChild(headerModal2);
 boxModal2.appendChild(formAddProject);
 modal2.appendChild(boxModal2);
 
 const openModal2 = document.querySelector(".upload-picture");
 //ouverture de la modale 2
+
 openModal2.addEventListener("click", function (event) {
   event.preventDefault();
-  console.log("click ok");
   modal.style.display = "none";
   modal2.style.display = null;
   modal2.removeAttribute("aria-hidden");
-  modal2.addEventListener("click", closeModal);
   modal2
     .querySelector(".button-close-modal")
-    .addEventListener("click", closeModal);
+    .addEventListener("click", closeModal(modal2));
   modal2
     .querySelector(".stop-propagation")
     .addEventListener("click", stopPropagation);
 });
+//creation du bouton valider (ajout photo)
+const validateButton = document.createElement("input");
+validateButton.setAttribute("type", "submit");
+validateButton.setAttribute("value", "Valider");
+validateButton.className = "validate-button";
+
+//fonction validité de l'image
+let validPicture = false;
+const validatePicture = function () {
+  const selectedPicture = uploadPicture.files[0];
+  const pictureRegEx = new RegExp(".jpg|.jpeg|.png$", "i");
+  const testPicture = pictureRegEx.test(selectedPicture.name);
+  const pictureURL = URL.createObjectURL(selectedPicture);
+  imgModal2.style.display = "none"; //remplacement de l'icone par l'image selectionnée
+  labelUploadPicture.style.display = "none";
+  uploadFormat.style.display = "none";
+  const newImgModal2 = document.createElement("img");
+  newImgModal2.setAttribute("src", pictureURL);
+  newImgModal2.className = "new-img-modal-2";
+
+  articleUpload.appendChild(newImgModal2);
+
+  if (testPicture === false) {
+    //verification du format de l'image
+    alert("Selectionner une image valide (.jpg ou .png)");
+  } else if (selectedPicture.size > 4000000) {
+    //verifictaion de la taille de l'image
+    alert("image limitée à 4Mo");
+  } else {
+    validPicture = true;
+    console.log(selectedPicture);
+  }
+};
+//
+//
+//
+//
+// code en cours
+//addEventListener ligne 377
+const imgInput = document.querySelector("#buttonFile");
+const titleInput = document.querySelector(".input-title");
+const categoryInput = document.querySelector(".select-category");
+
+const formData = new FormData();
+formData.append("imageURL", imgInput.files[0]);
+formData.append("title", titleInput.value);
+formData.append("categoryId", categoryInput.value);
+
+// envoie de nouveau projets
+validateButton.addEventListener("click", function (event) {
+  if (validPicture === false || optionDefault.selected === true) {
+    event.preventDefault();
+    alert("Veuillez renseigner tous les champs.");
+  } else {
+    event.preventDefault();
+    console.log(imgInput.files[0]);
+    console.log(titleInput.value);
+    console.log(categoryInput.value);
+    console.log(formData);
+
+    fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${sessionStorage["token"]}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        return response.json(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+});
+formAddProject.appendChild(validateButton);

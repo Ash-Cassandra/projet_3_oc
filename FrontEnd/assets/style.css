@@ -368,9 +368,8 @@ footer nav ul {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 60%;
-	height: 150px;
-	padding: 20px;
+	width: 65%;
+	height: 180px;
 	border: 1px solid #E8F1F6;
 	border-radius: 3px ;
 	background-color: #E8F1F6;
@@ -378,7 +377,14 @@ footer nav ul {
 	.img-modal-2 {
 		width: 15%;
 	}
-	#add-picture, .validate-button {
+	.new-img-modal-2 {
+		height: 100%;
+		object-fit: cover;
+	}
+	#buttonFile {
+		display: none;	}
+
+	.validate-button, #add-picture {
 		border: 1px solid #CBD6DC;
 		border-radius: 60px;
 		padding: 8px 40px;
@@ -386,6 +392,7 @@ footer nav ul {
 		background-color: #CBD6DC;
 		color: #306685;
 	}
+
 	
  .select-category, .input-title{
 	width: 65%;
