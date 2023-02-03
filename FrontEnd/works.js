@@ -234,31 +234,22 @@ editButton.addEventListener("click", function (event) {
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
-  modal
-    .querySelector(".stop-propagation")
-    .addEventListener("click", stopPropagation);
 });
+const stopPropagation = function (event) {
+  event.stopPropagation();
+};
 //fermeture de la modale
-const closeModal = function () {
-  let selectedModal;
-  if (modal !== null) {
-    selectedModal = modal;
-  } else if (modal2 !== null) {
+const closeModal = function (event) {
+  let selectedModal = modal;
+  if ((modal.style.display = "none")) {
     selectedModal = modal2;
-  }
+  } else event.preventDefault();
   selectedModal.style.display = "none";
   selectedModal.setAttribute("aria-hidden", "true");
   selectedModal.removeEventListener("click", closeModal);
   selectedModal
     .querySelector(".button-close-modal")
     .removeEventListener("click", closeModal);
-  selectedModal
-    .querySelector(".stop-propagation")
-    .removeEventListener("click", stopPropagation);
-};
-
-const stopPropagation = function (event) {
-  event.stopPropagation();
 };
 
 //affichage des projets dans la modale 1
@@ -344,9 +335,6 @@ backPreviousButton.addEventListener("click", function (event) {
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
-  modal
-    .querySelector(".stop-propagation")
-    .addEventListener("click", stopPropagation);
 });
 
 const iconBack = document.createElement("img");
@@ -373,6 +361,7 @@ imgModal2.className = "img-modal-2";
 const uploadPicture = document.createElement("input"); //bouton telecharger photo
 uploadPicture.setAttribute("type", "file");
 uploadPicture.setAttribute("id", "buttonFile");
+uploadPicture.setAttribute("name", uploadPicture.name);
 uploadPicture.addEventListener("change", function () {
   validatePicture();
 });
@@ -380,6 +369,7 @@ uploadPicture.addEventListener("change", function () {
 const labelUploadPicture = document.createElement("label"); //label du bouton(apparence du bouton)
 labelUploadPicture.innerText = "+ ajouter photo";
 labelUploadPicture.setAttribute("id", "add-picture");
+labelUploadPicture.setAttribute("for", "name");
 //transfert du click sur le button
 labelUploadPicture.addEventListener("click", function () {
   uploadPicture.click();
@@ -447,16 +437,13 @@ openModal2.addEventListener("click", function (event) {
   modal2
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
-  modal2
-    .querySelector(".stop-propagation")
-    .addEventListener("click", stopPropagation);
 });
 //creation du bouton valider (ajout photo)
 const validateButton = document.createElement("input");
 validateButton.setAttribute("type", "submit");
 validateButton.setAttribute("value", "Valider");
 validateButton.className = "validate-button";
-
+formAddProject.appendChild(validateButton);
 //fonction validité de l'image
 let validPicture = false;
 const validatePicture = function () {
@@ -490,23 +477,24 @@ const validatePicture = function () {
 //
 // code en cours
 //addEventListener ligne 377
-const imgInput = document.querySelector("#buttonFile");
+const imgInput = document.querySelector("#buttonFile").files[0];
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
 
 const formData = new FormData();
-formData.append("imageURL", document.querySelector("#buttonFile").files[0]);
-formData.append("title", document.querySelector(".input-title").value);
-formData.append("categoryId", document.querySelector(".select-category").value);
+formData.append("image", imgInput);
+formData.append("title", titleInput.value);
+formData.append("category", categoryInput.value);
 
 // envoie de nouveau projets
+
 validateButton.addEventListener("click", function (event) {
   if (validPicture === false || optionDefault.selected === true) {
     event.preventDefault();
     alert("Veuillez renseigner tous les champs.");
   } else {
     event.preventDefault();
-    console.log(imgInput.files[0]);
+    console.log(imgInput.name);
     console.log(titleInput.value);
     console.log(categoryInput.value);
     console.log(formData);
@@ -515,16 +503,17 @@ validateButton.addEventListener("click", function (event) {
       method: "POST",
       headers: {
         accept: "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${sessionStorage["token"]}`,
       },
       body: formData,
     })
-      .then((response) => {
-        return response.json(data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("OK", data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error", error);
       });
   }
 });
-formAddProject.appendChild(validateButton);
