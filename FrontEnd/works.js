@@ -446,7 +446,7 @@ openModal2.addEventListener("click", function (event) {
   modal2.removeAttribute("aria-hidden");
   modal2
     .querySelector(".button-close-modal")
-    .addEventListener("click", closeModal(modal2));
+    .addEventListener("click", closeModal);
   modal2
     .querySelector(".stop-propagation")
     .addEventListener("click", stopPropagation);
@@ -495,9 +495,9 @@ const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
 
 const formData = new FormData();
-formData.append("imageURL", imgInput.files[0]);
-formData.append("title", titleInput.value);
-formData.append("categoryId", categoryInput.value);
+formData.append("imageURL", document.querySelector("#buttonFile").files[0]);
+formData.append("title", document.querySelector(".input-title").value);
+formData.append("categoryId", document.querySelector(".select-category").value);
 
 // envoie de nouveau projets
 validateButton.addEventListener("click", function (event) {
