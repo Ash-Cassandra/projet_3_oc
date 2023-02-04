@@ -18,6 +18,8 @@ editButton.addEventListener("click", function (event) {
   event.preventDefault();
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
+  modal.addEventListener("click", closeModal);
+
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
@@ -77,7 +79,8 @@ generateProjectsModal(works);
 const deletedButton = document.querySelectorAll(".fa-trash-can");
 deletedButton.forEach((button) => {
   button.addEventListener("click", function (event) {
-    event.preventDefault();
+    const parentIcon = event.target.parentNode;
+    parentIcon.remove();
     const projectId = event.currentTarget.getAttribute("dataId");
     console.log(projectId);
     fetch(`http://localhost:5678/api/works/${projectId}`, {
@@ -88,12 +91,12 @@ deletedButton.forEach((button) => {
       },
     }).then(responses);
     if (responses.ok) {
+      event.preventDefault;
       console.log(responses);
       //selection des figures
       let shape = document.querySelectorAll(".shape");
-
       for (let i = 0; i < shape.length; i++) {
-        if (!shape[i].classList.contains("shape-" + projectId)) {
+        if (shape[i].classList.contains("shape-" + projectId)) {
           shape[i].remove();
         }
       }
@@ -231,6 +234,8 @@ openModal2.addEventListener("click", function (event) {
   modal.style.display = "none";
   modal2.style.display = null;
   modal2.removeAttribute("aria-hidden");
+  modal2.addEventListener("click", closeModal);
+
   modal2
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
