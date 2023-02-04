@@ -330,7 +330,17 @@ footer nav ul {
 			.fa-trash-can {
 				position: absolute;
 				right: 2px;
-				top: 2px;			}
+				top: 2px;
+					}
+			.fa-arrows-up-down-left-right {
+				display: none;
+				position: absolute;
+				right: 10px;
+				top:2px;
+			}
+			.fa-arrows-up-down-left-right:hover {
+				display: block;
+			}
 	.upload-picture {
 		border: 1px solid #1D6154;
 		border-radius: 60px;

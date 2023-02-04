@@ -3,7 +3,10 @@ const works = await responses.json();
 
 const responsesCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responsesCategories.json();
-const categoryNames = categories.map((category) => category.name);
+const categoryNames = categories.map((category) => [
+  category.name,
+  category.id,
+]);
 document.querySelector(".gallery").innerHTML = "";
 
 //verification du statut de connexion
@@ -234,6 +237,9 @@ editButton.addEventListener("click", function (event) {
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
 });
 const stopPropagation = function (event) {
   event.stopPropagation();
@@ -250,6 +256,9 @@ const closeModal = function (event) {
   selectedModal
     .querySelector(".button-close-modal")
     .removeEventListener("click", closeModal);
+  selectedModal
+    .querySelector(".stop-propagation")
+    .removeEventListener("click", stopPropagation);
 };
 
 //affichage des projets dans la modale 1
@@ -271,6 +280,7 @@ function generateProjectsModal(works) {
     deleteIcon.setAttribute("dataId", works[i].id);
     const arrowsIcon = document.createElement("i"); //creation de l'icone fleches
     arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
+    arrowsIcon.setAttribute("iconData", works[i].id);
 
     editModal.appendChild(workModal);
     workModal.appendChild(picturesModal);
@@ -335,6 +345,9 @@ backPreviousButton.addEventListener("click", function (event) {
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
+  modal
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
 });
 
 const iconBack = document.createElement("img");
@@ -405,8 +418,8 @@ inputCategory.setAttribute("type", "select");
 inputCategory.setAttribute("name", "category");
 categoryNames.forEach((category) => {
   const optionInputCat = document.createElement("option"); // creation des options "categorie"
-  optionInputCat.value = category;
-  optionInputCat.textContent = category;
+  optionInputCat.value = category[1];
+  optionInputCat.textContent = category[0];
   inputCategory.appendChild(optionInputCat);
 });
 const optionDefault = document.createElement("option");
@@ -437,6 +450,9 @@ openModal2.addEventListener("click", function (event) {
   modal2
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
+  modal2
+    .querySelector(".stop-propagation")
+    .addEventListener("click", stopPropagation);
 });
 //creation du bouton valider (ajout photo)
 const validateButton = document.createElement("input");
@@ -477,33 +493,34 @@ const validatePicture = function () {
 //
 // code en cours
 //addEventListener ligne 377
-const imgInput = document.querySelector("#buttonFile").files[0];
+const imgInput = document.querySelector("#buttonFile");
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
 
-const formData = new FormData();
-formData.append("image", imgInput);
-formData.append("title", titleInput.value);
-formData.append("category", categoryInput.value);
+//console.log("image test", imgInput.files[0].name);
 
 // envoie de nouveau projets
 
 validateButton.addEventListener("click", function (event) {
+  event.preventDefault();
+
   if (validPicture === false || optionDefault.selected === true) {
-    event.preventDefault();
     alert("Veuillez renseigner tous les champs.");
   } else {
-    event.preventDefault();
-    console.log(imgInput.name);
-    console.log(titleInput.value);
+    const formData = new FormData();
+    formData.append("image", imgInput.files[0], imgInput.files[0].name);
+    formData.append("title", titleInput.value);
+    formData.append("category", categoryInput.value);
+    console.log(imgInput);
+
+    /* console.log(titleInput.value);
     console.log(categoryInput.value);
-    console.log(formData);
+    console.log(formData);*/
 
     fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
         accept: "application/json",
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${sessionStorage["token"]}`,
       },
       body: formData,
