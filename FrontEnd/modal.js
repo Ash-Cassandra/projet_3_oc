@@ -294,7 +294,6 @@ const categoryInput = document.querySelector(".select-category");
 
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
-  document.querySelector(".gallery").innerHTML = "";
 
   if (validPicture === false || optionDefault.selected === true) {
     alert("Veuillez renseigner tous les champs.");
@@ -318,13 +317,13 @@ validateButton.addEventListener("click", function (event) {
 
       .then((workData) => {
         works.push(workData);
-
+        generateProjects(works);
         console.log("all", works);
+
         console.log("OK", workData);
       })
       .catch((error) => {
         console.log("error", error);
       });
-    generateProjects(works);
   }
 });
