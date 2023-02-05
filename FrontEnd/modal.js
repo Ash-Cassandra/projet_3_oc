@@ -1,3 +1,5 @@
+import { generateProjects } from "./works.js";
+
 const responses = await fetch("http://localhost:5678/api/works");
 const works = await responses.json();
 
@@ -64,12 +66,24 @@ function generateProjectsModal(works) {
     deleteIcon.className = "fa-trash-can";
     deleteIcon.setAttribute("src", "assets/icons/vector.svg");
     deleteIcon.setAttribute("dataId", works[i].id);
-    const arrowsIcon = document.createElement("i"); //creation de l'icone fleches
-    arrowsIcon.className = "fa-solid fa-arrows-up-down-left-right";
+    const arrowsIcon = document.createElement("img"); //creation de l'icone fleches
+    arrowsIcon.className = "fa-arrows";
+    arrowsIcon.setAttribute("src", "assets/icons/arrows.svg");
     arrowsIcon.setAttribute("iconData", works[i].id);
+    picturesModal.addEventListener("mouseover", function () {
+      arrowsIcon.style.display = "block";
+    });
+    picturesModal.addEventListener("mouseout", function () {
+      arrowsIcon.style.display = "none";
+    });
+
+    const textPictureModal = document.createElement("figcaption");
+    textPictureModal.innerText = "éditer";
 
     editModal.appendChild(workModal);
     workModal.appendChild(picturesModal);
+    workModal.appendChild(textPictureModal);
+    picturesModal.parentNode.appendChild(arrowsIcon);
     picturesModal.parentNode.appendChild(deleteIcon);
   }
 }
@@ -82,7 +96,6 @@ deletedButton.forEach((button) => {
     const parentIcon = event.target.parentNode;
     parentIcon.remove();
     const projectId = event.currentTarget.getAttribute("dataId");
-    console.log(projectId);
     fetch(`http://localhost:5678/api/works/${projectId}`, {
       method: "DELETE",
       headers: {
@@ -92,7 +105,6 @@ deletedButton.forEach((button) => {
     }).then(responses);
     if (responses.ok) {
       event.preventDefault;
-      console.log(responses);
       //selection des figures
       let shape = document.querySelectorAll(".shape");
       for (let i = 0; i < shape.length; i++) {
@@ -102,6 +114,7 @@ deletedButton.forEach((button) => {
       }
     }
   });
+  generateProjects(works);
 });
 
 //creation de la modale 2
@@ -226,9 +239,8 @@ boxModal2.appendChild(headerModal2);
 boxModal2.appendChild(formAddProject);
 modal2.appendChild(boxModal2);
 
-const openModal2 = document.querySelector(".upload-picture");
 //ouverture de la modale 2
-
+const openModal2 = document.querySelector(".upload-picture");
 openModal2.addEventListener("click", function (event) {
   event.preventDefault();
   modal.style.display = "none";
@@ -273,34 +285,26 @@ const validatePicture = function () {
     alert("image limitée à 4Mo");
   } else {
     validPicture = true;
-    console.log(selectedPicture);
   }
 };
-//
-//
-//
-//
-// code en cours
-//addEventListener ligne 377
+// envoie de nouveau projets
 const imgInput = document.querySelector("#buttonFile");
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
 
-//console.log("image test", imgInput.files[0].name);
-
-// envoie de nouveau projets
-
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
+  document.querySelector(".gallery").innerHTML = "";
 
   if (validPicture === false || optionDefault.selected === true) {
     alert("Veuillez renseigner tous les champs.");
   } else {
+    closeModal();
+
     const formData = new FormData();
     formData.append("image", imgInput.files[0], imgInput.files[0].name);
     formData.append("title", titleInput.value);
     formData.append("category", categoryInput.value);
-    console.log(imgInput);
 
     fetch("http://localhost:5678/api/works", {
       method: "POST",
@@ -311,11 +315,16 @@ validateButton.addEventListener("click", function (event) {
       body: formData,
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log("OK", data);
+
+      .then((workData) => {
+        works.push(workData);
+
+        console.log("all", works);
+        console.log("OK", workData);
       })
       .catch((error) => {
         console.log("error", error);
       });
+    generateProjects(works);
   }
 });

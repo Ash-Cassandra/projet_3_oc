@@ -332,14 +332,11 @@ footer nav ul {
 				right: 2px;
 				top: 2px;
 					}
-			.fa-arrows-up-down-left-right {
+			.fa-arrows {
 				display: none;
 				position: absolute;
-				right: 10px;
-				top:2px;
-			}
-			.fa-arrows-up-down-left-right:hover {
-				display: block;
+				right: 25px;
+				top:2px;				
 			}
 	.upload-picture {
 		border: 1px solid #1D6154;

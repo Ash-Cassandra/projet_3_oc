@@ -7,7 +7,6 @@ const categoryNames = categories.map((category) => [
   category.name,
   category.id,
 ]);
-document.querySelector(".gallery").innerHTML = "";
 
 //verification du statut de connexion
 if (sessionStorage.getItem("loggedIn") === "true") {
@@ -47,7 +46,9 @@ if (sessionStorage.getItem("loggedIn") === "true") {
 }
 
 // Si pas de connexion = affichage des projets sur le site
-function genererProjects(works) {
+export function generateProjects(works) {
+  document.querySelector(".gallery").innerHTML = "";
+
   for (let i = 0; i < works.length; i++) {
     const project = works[i];
     const sectionGallery = document.querySelector(".gallery");
@@ -68,11 +69,10 @@ function genererProjects(works) {
     workElement.appendChild(titleElement);
   }
 }
-genererProjects(works);
+generateProjects(works);
 
 // affichage des boutons
 const filters = document.querySelector("#filters");
-const gallery = document.querySelector(".gallery");
 
 function genererButton(works) {
   // bouton "tous"
@@ -81,7 +81,7 @@ function genererButton(works) {
   buttonAll.innerText = "Tous";
   buttonAll.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = "";
-    return genererProjects(works);
+    return generateProjects(works);
   });
   filters.appendChild(buttonAll);
 }
