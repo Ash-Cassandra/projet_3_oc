@@ -311,6 +311,7 @@ footer nav ul {
 		font-weight: 400;
 		font-size: 26px;
 		color: #000;
+		margin-top: 25px;
 	
 	}
 	.button-close-modal {
@@ -341,11 +342,14 @@ footer nav ul {
 				top: 2px;
 					}
 			.fa-arrows {
-				display: none;
 				position: absolute;
 				right: 25px;
 				top:2px;				
 			}
+			hr {
+				width: 90%;
+				color : #000;
+			  }
 	.upload-picture {
 		border: 1px solid #1D6154;
 		border-radius: 60px;
