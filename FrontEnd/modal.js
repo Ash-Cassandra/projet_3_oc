@@ -21,7 +21,6 @@ editButton.addEventListener("click", function (event) {
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
   modal.addEventListener("click", closeModal);
-
   modal
     .querySelector(".button-close-modal")
     .addEventListener("click", closeModal);
@@ -113,7 +112,6 @@ deletedButton.forEach((button) => {
           shape[i].remove();
         }
       }
-      // document.querySelector(".gallery").innerHTML = "";
     }
   });
   generateProjects(works);
@@ -135,8 +133,7 @@ iconClose.classList.add("fa-solid", "fa-xmark");
 
 const backPreviousButton = document.createElement("button"); //bouton retour à la modale 1
 backPreviousButton.className = "back-previous-button";
-backPreviousButton.addEventListener("click", function (event) {
-  event.preventDefault();
+backPreviousButton.addEventListener("click", function () {
   modal2.style.display = "none";
   modal.style.display = null;
   modal.removeAttribute("aria-hidden");
@@ -295,12 +292,9 @@ const categoryInput = document.querySelector(".select-category");
 
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
-
   if (validPicture === false || optionDefault.selected === true) {
     alert("Veuillez renseigner tous les champs.");
   } else {
-    closeModal();
-
     const formData = new FormData();
     formData.append("image", imgInput.files[0], imgInput.files[0].name);
     formData.append("title", titleInput.value);
@@ -321,12 +315,12 @@ validateButton.addEventListener("click", function (event) {
         generateProjects(works);
         document.querySelector(".edit-project").innerHTML = "";
         generateProjectsModal(works);
-        console.log("all", works);
-
-        console.log("OK", workData);
+        console.log("projets", works);
+        closeModal();
       })
       .catch((error) => {
         console.log("error", error);
       });
   }
 });
+console.log("projets affichés", works);
