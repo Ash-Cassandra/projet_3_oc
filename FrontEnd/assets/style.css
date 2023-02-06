@@ -342,6 +342,7 @@ footer nav ul {
 				top: 2px;
 					}
 			.fa-arrows {
+				display: none;
 				position: absolute;
 				right: 25px;
 				top:2px;				
@@ -403,7 +404,7 @@ footer nav ul {
 	#buttonFile {
 		display: none;	}
 
-	.validate-button, #add-picture {
+	 #add-picture {
 		border: 1px solid #CBD6DC;
 		border-radius: 60px;
 		padding: 8px 40px;
@@ -411,7 +412,14 @@ footer nav ul {
 		background-color: #CBD6DC;
 		color: #306685;
 	}
-
+	.form-add-project .validate-button{
+		border: 1px solid #A7A7A7;
+		border-radius: 60px;
+		width: 238px;
+		padding: 8px;
+		margin: 25px 0 10px 0;
+		background-color: #A7A7A7;
+		color: #FFF;	}
 	
  .select-category, .input-title{
 	width: 65%;
