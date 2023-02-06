@@ -133,7 +133,10 @@ li:hover {
 	margin-bottom: 1em;
 }
 /*------------------------------*/
-
+.to-modify {
+	display: flex;
+	gap: 10px;
+}
 #filters {
 	display: flex;
 	flex-direction: row;

@@ -35,6 +35,9 @@ if (sessionStorage.getItem("loggedIn") === "true") {
     const modifyIcon = document.createElement("i");
     modifyIcon.className = "fa-regular fa-pen-to-square";
 
+    const removeFilters = document.querySelector("#filters");
+    removeFilters.style.display = " none";
+
     const loginbtn = document.querySelector(".login"); //modification login => logout
     loginbtn.innerText = "logout";
     loginbtn.addEventListener("click", function () {
