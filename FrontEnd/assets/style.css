@@ -148,7 +148,7 @@ li:hover {
 	font-family: Syne;
 	font-size: 16px;
 }
-.filter:hover {
+.filter:hover, .to-modify:hover, .login:hover{
 	cursor: pointer;
 }
 .filter:focus {
