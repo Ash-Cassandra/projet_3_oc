@@ -113,7 +113,7 @@ deletedButton.forEach((button) => {
           shape[i].remove();
         }
       }
-      document.querySelector(".gallery").innerHTML = "";
+      // document.querySelector(".gallery").innerHTML = "";
     }
   });
   generateProjects(works);

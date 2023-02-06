@@ -74,18 +74,20 @@ generateProjects(works);
 // affichage des boutons
 const filters = document.querySelector("#filters");
 
-function genererButton(works) {
+export const generateButton = function () {
   // bouton "tous"
   const buttonAll = document.createElement("button");
   buttonAll.className = "filter";
   buttonAll.innerText = "Tous";
   buttonAll.addEventListener("click", function () {
-    document.querySelector(".gallery").innerHTML = "";
-    return generateProjects(works);
+    let pictures = document.querySelectorAll(".img");
+    for (let i = 0; i < pictures.length; i++) {
+      pictures[i].parentElement.style.display = "block";
+    }
   });
   filters.appendChild(buttonAll);
-}
-genererButton(works);
+};
+generateButton();
 
 function genererButtons(categories) {
   // boutons categorie
