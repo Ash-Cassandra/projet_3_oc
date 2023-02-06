@@ -104,7 +104,8 @@ deletedButton.forEach((button) => {
       },
     }).then(responses);
     if (responses.ok) {
-      event.preventDefault;
+      console.log(responses);
+      console.log(projectId);
       //selection des figures
       let shape = document.querySelectorAll(".shape");
       for (let i = 0; i < shape.length; i++) {
@@ -112,6 +113,7 @@ deletedButton.forEach((button) => {
           shape[i].remove();
         }
       }
+      document.querySelector(".gallery").innerHTML = "";
     }
   });
   generateProjects(works);
@@ -130,9 +132,6 @@ closeButton.className = "button-close-modal";
 closeButton.addEventListener("click", closeModal);
 const iconClose = document.createElement("i");
 iconClose.classList.add("fa-solid", "fa-xmark");
-
-closeButton.appendChild(iconClose);
-headerModal2.appendChild(closeButton);
 
 const backPreviousButton = document.createElement("button"); //bouton retour à la modale 1
 backPreviousButton.className = "back-previous-button";
@@ -154,8 +153,10 @@ const iconBack = document.createElement("img");
 iconBack.setAttribute("src", "assets/icons/arrowBack.svg");
 iconBack.className = "icon-back";
 
+closeButton.appendChild(iconClose);
 backPreviousButton.appendChild(iconBack);
 headerModal2.appendChild(backPreviousButton);
+headerModal2.appendChild(closeButton);
 
 const formAddProject = document.createElement("form"); //création du formulaire
 formAddProject.className = "form-add-project";
@@ -318,6 +319,8 @@ validateButton.addEventListener("click", function (event) {
       .then((workData) => {
         works.push(workData);
         generateProjects(works);
+        document.querySelector(".edit-project").innerHTML = "";
+        generateProjectsModal(works);
         console.log("all", works);
 
         console.log("OK", workData);
