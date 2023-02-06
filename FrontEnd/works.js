@@ -16,8 +16,12 @@ if (sessionStorage.getItem("loggedIn") === "true") {
   const banner = document.createElement("nav");
   banner.className = "banner";
   header.appendChild(banner);
+  const modifyIcon = document.createElement("i");
+  modifyIcon.className = "fa-regular fa-pen-to-square";
   const bannerText = document.createElement("p");
   bannerText.innerText = "Mode édition";
+  bannerText.className = "mode-edition";
+  bannerText.appendChild(modifyIcon);
   banner.appendChild(bannerText);
   const bannerButton = document.createElement("button");
   bannerButton.innerText = "publier les changements";

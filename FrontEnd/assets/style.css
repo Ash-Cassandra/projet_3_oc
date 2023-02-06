@@ -57,6 +57,11 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+	.mode-edition {
+		display: flex;
+		flex-direction: row-reverse;
+		gap: 5px;
+	}
 section {
 	margin: 50px 0
 }
