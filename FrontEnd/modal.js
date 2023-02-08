@@ -222,7 +222,7 @@ categoryNames.forEach((category) => {
 });
 const optionDefault = document.createElement("option");
 optionDefault.value = "";
-optionDefault.textContent = "-- selectionnez une catégorie.--";
+//optionDefault.textContent = "-- selectionnez une catégorie.--";
 optionDefault.selected = true;
 inputCategory.appendChild(optionDefault);
 
@@ -249,7 +249,8 @@ openModal2.addEventListener("click", function (event) {
   imgModal2.style.display = "block"; //remplacement de l'icone par l'image selectionnée
   labelUploadPicture.style.display = "block";
   uploadFormat.style.display = "block";
-
+  document.querySelector(".input-title").value = "";
+  document.querySelector(".select-category").value = optionDefault;
   //
   //
   modal.style.display = "none";
