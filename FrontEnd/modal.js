@@ -241,6 +241,17 @@ modal2.appendChild(boxModal2);
 const openModal2 = document.querySelector(".upload-picture");
 openModal2.addEventListener("click", function (event) {
   event.preventDefault();
+  //
+  const newImgModal2 = document.querySelector(".new-img-modal-2");
+  if (newImgModal2) {
+    newImgModal2.style.display = "none";
+  }
+  imgModal2.style.display = "block"; //remplacement de l'icone par l'image selectionnée
+  labelUploadPicture.style.display = "block";
+  uploadFormat.style.display = "block";
+
+  //
+  //
   modal.style.display = "none";
   modal2.style.display = null;
   modal2.removeAttribute("aria-hidden");
