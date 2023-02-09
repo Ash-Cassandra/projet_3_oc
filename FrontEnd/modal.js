@@ -110,6 +110,7 @@ deletedButton.forEach((button) => {
       for (let i = 0; i < shape.length; i++) {
         if (shape[i].classList.contains("shape-" + projectId)) {
           shape[i].remove();
+          //works.splice(shape[i]);
         }
       }
     }
@@ -297,10 +298,33 @@ const validatePicture = function () {
     validPicture = true;
   }
 };
+
 // envoie de nouveau projets
 const imgInput = document.querySelector("#buttonFile");
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
+let emptyImgInput = true;
+let emptyTitleInput = true;
+let emptyCatInput = true;
+
+imgInput.addEventListener("change", function () {
+  emptyImgInput = false;
+  checkInputs();
+});
+titleInput.addEventListener("change", function () {
+  emptyTitleInput = false;
+  checkInputs();
+});
+categoryInput.addEventListener("change", function () {
+  emptyCatInput = false;
+  checkInputs();
+});
+
+const checkInputs = function () {
+  if (!emptyImgInput && !emptyTitleInput && !emptyCatInput) {
+    validateButton.style.backgroundColor = "#1D6154";
+  }
+};
 
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
