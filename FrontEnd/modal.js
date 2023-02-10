@@ -47,7 +47,32 @@ const closeModal = function (event) {
     .querySelector(".stop-propagation")
     .removeEventListener("click", stopPropagation);
 };
-
+//supression des projets depuis la modale 1
+const deletedWorks = function (event) {
+  const parentIcon = event.target.parentNode;
+  parentIcon.remove();
+  const projectId = event.currentTarget.getAttribute("dataId");
+  fetch(`http://localhost:5678/api/works/${projectId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${sessionStorage["token"]}`,
+      "content-Type": "application/json",
+    },
+  }).then((deleteData) => {
+    if (deleteData.ok) {
+      console.log(deleteData);
+      console.log(projectId);
+      //selection des figures
+      let shape = document.querySelectorAll(".shape");
+      for (let i = 0; i < shape.length; i++) {
+        if (shape[i].classList.contains("shape-" + projectId)) {
+          shape[i].remove();
+        }
+      }
+    }
+  });
+};
+generateProjects(works);
 //affichage des projets dans la modale 1
 function generateProjectsModal(works) {
   for (let i = 0; i < works.length; i++) {
@@ -65,6 +90,8 @@ function generateProjectsModal(works) {
     deleteIcon.className = "fa-trash-can";
     deleteIcon.setAttribute("src", "assets/icons/vector.svg");
     deleteIcon.setAttribute("dataId", works[i].id);
+    deleteIcon.addEventListener("click", deletedWorks);
+
     const arrowsIcon = document.createElement("img"); //creation de l'icone fleches
     arrowsIcon.className = "fa-arrows";
     arrowsIcon.setAttribute("src", "assets/icons/arrows.svg");
@@ -87,36 +114,6 @@ function generateProjectsModal(works) {
   }
 }
 generateProjectsModal(works);
-
-//supression des projets depuis la modale 1
-const deletedButton = document.querySelectorAll(".fa-trash-can");
-deletedButton.forEach((button) => {
-  button.addEventListener("click", function (event) {
-    const parentIcon = event.target.parentNode;
-    parentIcon.remove();
-    const projectId = event.currentTarget.getAttribute("dataId");
-    fetch(`http://localhost:5678/api/works/${projectId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${sessionStorage["token"]}`,
-        "content-Type": "application/json",
-      },
-    }).then(responses);
-    if (responses.ok) {
-      console.log(responses);
-      console.log(projectId);
-      //selection des figures
-      let shape = document.querySelectorAll(".shape");
-      for (let i = 0; i < shape.length; i++) {
-        if (shape[i].classList.contains("shape-" + projectId)) {
-          shape[i].remove();
-          //works.splice(shape[i]);
-        }
-      }
-    }
-  });
-  generateProjects(works);
-});
 
 //creation de la modale 2
 let modal2 = null;
@@ -223,7 +220,6 @@ categoryNames.forEach((category) => {
 });
 const optionDefault = document.createElement("option");
 optionDefault.value = "";
-//optionDefault.textContent = "-- selectionnez une catégorie.--";
 optionDefault.selected = true;
 inputCategory.appendChild(optionDefault);
 
@@ -299,14 +295,14 @@ const validatePicture = function () {
   }
 };
 
-// envoie de nouveau projets
+// form ajout projet
 const imgInput = document.querySelector("#buttonFile");
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
+//changement d'apparence du bouton valider
 let emptyImgInput = true;
 let emptyTitleInput = true;
 let emptyCatInput = true;
-
 imgInput.addEventListener("change", function () {
   emptyImgInput = false;
   checkInputs();
@@ -319,13 +315,12 @@ categoryInput.addEventListener("change", function () {
   emptyCatInput = false;
   checkInputs();
 });
-
 const checkInputs = function () {
   if (!emptyImgInput && !emptyTitleInput && !emptyCatInput) {
     validateButton.style.backgroundColor = "#1D6154";
   }
 };
-
+//envoie du nouveau projet
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
   if (validPicture === false || optionDefault.selected === true) {
@@ -345,8 +340,8 @@ validateButton.addEventListener("click", function (event) {
       body: formData,
     })
       .then((response) => response.json())
-
       .then((workData) => {
+        document.querySelector(".gallery").innerHTML = "";
         works.push(workData);
         generateProjects(works);
         document.querySelector(".edit-project").innerHTML = "";
@@ -359,4 +354,4 @@ validateButton.addEventListener("click", function (event) {
       });
   }
 });
-console.log("projets affichés", works);
+console.log("tous les projets", works);

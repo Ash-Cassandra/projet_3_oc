@@ -81,7 +81,7 @@ generateProjects(works);
 // affichage des boutons
 const filters = document.querySelector("#filters");
 
-export const generateButton = function () {
+const generateButton = function () {
   // bouton "tous"
   const buttonAll = document.createElement("button");
   buttonAll.className = "filter";
