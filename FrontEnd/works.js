@@ -1,5 +1,5 @@
 const responses = await fetch("http://localhost:5678/api/works");
-const works = await responses.json();
+let works = await responses.json();
 
 const responsesCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responsesCategories.json();

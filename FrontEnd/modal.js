@@ -1,7 +1,7 @@
 import { generateProjects } from "./works.js";
 
 const responses = await fetch("http://localhost:5678/api/works");
-const works = await responses.json();
+let works = await responses.json();
 
 const responsesCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responsesCategories.json();
@@ -62,6 +62,7 @@ const deletedWorks = function (event) {
     if (deleteData.ok) {
       console.log(deleteData);
       console.log(projectId);
+      works = works.filter((work) => work.id != projectId);
       //selection des figures
       let shape = document.querySelectorAll(".shape");
       for (let i = 0; i < shape.length; i++) {
@@ -241,7 +242,7 @@ openModal2.addEventListener("click", function (event) {
   //
   const newImgModal2 = document.querySelector(".new-img-modal-2");
   if (newImgModal2) {
-    newImgModal2.style.display = "none";
+    newImgModal2.remove();
   }
   imgModal2.style.display = "block"; //remplacement de l'icone par l'image selectionnée
   labelUploadPicture.style.display = "block";

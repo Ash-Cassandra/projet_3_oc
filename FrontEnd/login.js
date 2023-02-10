@@ -1,3 +1,6 @@
+const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
+const jsonData = JSON.stringify(data);
+
 // creation du formulaire de connexion
 function createForm() {
   const formlogin = document.querySelector("main");
@@ -41,9 +44,14 @@ function createForm() {
   buttonLogin.addEventListener("click", function (event) {
     event.preventDefault();
     if (validEmail(inputMail) && validPassword(inputPassword)) {
-      authenticatedSession();
-    } else {
-      console.log("non ok");
+      const emailValue = document.querySelector(".inputMail").value;
+      const passwordValue = document.querySelector(".password").value;
+      if (emailValue === data.email && passwordValue === data.password) {
+        authenticatedSession();
+      } else {
+        console.log("non ok");
+        alert("Erreur dans l’identifiant ou le mot de passe");
+      }
     }
   });
 
@@ -60,6 +68,8 @@ function createForm() {
     console.log(testEmail);
     if (testEmail === true) {
       return true;
+    } else {
+      alert("e-mail non conforme");
     }
   };
   // verification de la validité du mot de passe
@@ -70,6 +80,10 @@ function createForm() {
     console.log(testPassword);
     if (testPassword === true) {
       return true;
+    } else {
+      alert(
+        "mot de passe non conforme, caractère speciaux autorisés . - _ ( )"
+      );
     }
   };
   // lien mot de passe oublié
@@ -88,8 +102,7 @@ navLogin.addEventListener("click", function () {
 });
 
 //verification de la connexion
-const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
-const jsonData = JSON.stringify(data);
+
 function authenticatedSession() {
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
@@ -99,15 +112,16 @@ function authenticatedSession() {
     body: jsonData,
   }).then(async (responses) => {
     let tokenData = await responses.json();
-
+    console.log("tokenData", tokenData);
+    console.log("responses", responses);
+    console.log("jsonData", jsonData);
     if (responses.ok) {
       // si connexion ok =
       sessionStorage.setItem("loggedIn", true); //enregistrer les infos de connexion
       sessionStorage.setItem("token", tokenData.token); //enregistrer le token
       window.location.replace("index.html"); //rediriger vers la page principale
     } else {
-      console.log("erreur"); //sinon =
-      alert("Erreur dans l’identifiant ou le mot de passe");
+      console.log("erreur", Error); //sinon =
     }
   });
 }
