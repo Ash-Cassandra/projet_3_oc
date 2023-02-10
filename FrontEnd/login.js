@@ -49,7 +49,6 @@ function createForm() {
       if (emailValue === data.email && passwordValue === data.password) {
         authenticatedSession();
       } else {
-        console.log("non ok");
         alert("Erreur dans l’identifiant ou le mot de passe");
       }
     }
@@ -65,7 +64,6 @@ function createForm() {
       "g"
     );
     const testEmail = emailRegEx.test(inputMail.value);
-    console.log(testEmail);
     if (testEmail === true) {
       return true;
     } else {
@@ -77,7 +75,6 @@ function createForm() {
     //RegEx du mot de passe
     let passwordRegEx = new RegExp("^[a-zA-Z0-9.-_()]+", "g");
     const testPassword = passwordRegEx.test(inputPassword.value);
-    console.log(testPassword);
     if (testPassword === true) {
       return true;
     } else {
@@ -112,16 +109,13 @@ function authenticatedSession() {
     body: jsonData,
   }).then(async (responses) => {
     let tokenData = await responses.json();
-    console.log("tokenData", tokenData);
-    console.log("responses", responses);
-    console.log("jsonData", jsonData);
     if (responses.ok) {
       // si connexion ok =
       sessionStorage.setItem("loggedIn", true); //enregistrer les infos de connexion
       sessionStorage.setItem("token", tokenData.token); //enregistrer le token
       window.location.replace("index.html"); //rediriger vers la page principale
     } else {
-      console.log("erreur", Error); //sinon =
+      alert("erreur", Error);
     }
   });
 }

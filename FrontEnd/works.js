@@ -53,27 +53,36 @@ if (sessionStorage.getItem("loggedIn") === "true") {
 }
 
 // Si pas de connexion = affichage des projets sur le site
+const sectionGallery = document.querySelector(".gallery");
+
 export function generateProjects(works) {
   document.querySelector(".gallery").innerHTML = "";
 
-  for (let i = 0; i < works.length; i++) {
-    const project = works[i];
-    const sectionGallery = document.querySelector(".gallery");
+  if (works.length === 0) {
+    const noProjects = document.createElement("p");
+    noProjects.className = "no-project";
+    noProjects.innerText = "Prochainement de nouveaux projets!";
+    sectionGallery.appendChild(noProjects);
+    return;
+  } else {
+    for (let i = 0; i < works.length; i++) {
+      const project = works[i];
 
-    const workElement = document.createElement("figure"); // fiche projet
-    workElement.classList.add("shape-" + project.id, "shape");
+      const workElement = document.createElement("figure"); // fiche projet
+      workElement.classList.add("shape-" + project.id, "shape");
 
-    const imageElement = document.createElement("img"); // image de la fiche
-    imageElement.src = project.imageUrl;
-    imageElement.crossOrigin = "anonymous";
-    imageElement.alt = project.title;
-    imageElement.classList.add("category-" + project.categoryId, "img");
-    const titleElement = document.createElement("h3"); //titre de la fiche
-    titleElement.innerText = project.title;
+      const imageElement = document.createElement("img"); // image de la fiche
+      imageElement.src = project.imageUrl;
+      imageElement.crossOrigin = "anonymous";
+      imageElement.alt = project.title;
+      imageElement.classList.add("category-" + project.categoryId, "img");
+      const titleElement = document.createElement("h3"); //titre de la fiche
+      titleElement.innerText = project.title;
 
-    sectionGallery.appendChild(workElement);
-    workElement.appendChild(imageElement);
-    workElement.appendChild(titleElement);
+      workElement.appendChild(imageElement);
+      workElement.appendChild(titleElement);
+      sectionGallery.appendChild(workElement);
+    }
   }
 }
 generateProjects(works);
@@ -98,6 +107,7 @@ generateButton();
 
 function genererButtons(categories) {
   // boutons categorie
+
   for (let i = 0; i < categories.length; i++) {
     const filter = categories[i];
     const buttons = document.createElement("button");
