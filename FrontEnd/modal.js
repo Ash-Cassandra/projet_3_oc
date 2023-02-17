@@ -60,6 +60,8 @@ const deletedWorks = function (event) {
     },
   }).then((deleteData) => {
     if (deleteData.ok) {
+      console.log(deleteData);
+      console.log(projectId);
       works = works.filter((work) => work.id != projectId);
       //selection des figures
       let shape = document.querySelectorAll(".shape");
@@ -347,6 +349,8 @@ validateButton.addEventListener("click", function (event) {
         generateProjectsModal(works);
         closeModal();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log("error", error);
+      });
   }
 });

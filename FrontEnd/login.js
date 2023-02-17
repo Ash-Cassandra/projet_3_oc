@@ -19,7 +19,7 @@ function createForm() {
   inputMail.setAttribute("name", "email");
   const labelEmail = document.createElement("label"); //label e-mail
   labelEmail.className = "label-login";
-  labelEmail.setAttribute("for", "name");
+  labelEmail.setAttribute("for", "email");
   labelEmail.innerText = "E-mail";
 
   form.appendChild(labelEmail);
@@ -31,7 +31,7 @@ function createForm() {
   inputPassword.setAttribute("name", "password");
   const labelPassword = document.createElement("label"); //label password
   labelPassword.className = "label-login";
-  labelPassword.setAttribute("for", "name");
+  labelPassword.setAttribute("for", "password");
   labelPassword.innerText = " Mot de passe";
 
   form.appendChild(labelPassword);
