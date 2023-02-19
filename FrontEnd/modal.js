@@ -249,6 +249,9 @@ openModal2.addEventListener("click", function (event) {
   uploadFormat.style.display = "block";
   document.querySelector(".input-title").value = "";
   document.querySelector(".select-category").value = optionDefault;
+  emptyImgInput = true;
+  emptyTitleInput = true;
+  emptyCatInput = true;
   //
   //
   modal.style.display = "none";
@@ -301,9 +304,11 @@ const imgInput = document.querySelector("#buttonFile");
 const titleInput = document.querySelector(".input-title");
 const categoryInput = document.querySelector(".select-category");
 //changement d'apparence du bouton valider
+
 let emptyImgInput = true;
 let emptyTitleInput = true;
 let emptyCatInput = true;
+
 imgInput.addEventListener("change", function () {
   emptyImgInput = false;
   checkInputs();
@@ -320,12 +325,16 @@ const checkInputs = function () {
   if (!emptyImgInput && !emptyTitleInput && !emptyCatInput) {
     validateButton.style.backgroundColor = "#1D6154";
   }
+  console.log("img", emptyImgInput);
+  console.log("titre", emptyTitleInput);
+  console.log("category", emptyCatInput);
 };
+
 //envoie du nouveau projet
 validateButton.addEventListener("click", function (event) {
   event.preventDefault();
-  if (validPicture === false || optionDefault.selected === true) {
-    alert("Veuillez renseigner tous les champs.");
+  if (emptyImgInput || emptyTitleInput || emptyCatInput) {
+    return alert("Veuillez renseigner tous les champs.");
   } else {
     const formData = new FormData();
     formData.append("image", imgInput.files[0], imgInput.files[0].name);
