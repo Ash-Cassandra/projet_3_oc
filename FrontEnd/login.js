@@ -1,5 +1,5 @@
-const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
-const jsonData = JSON.stringify(data);
+//const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
+//const jsonData = JSON.stringify(data);
 
 // creation du formulaire de connexion
 function createForm() {
@@ -43,14 +43,9 @@ function createForm() {
   buttonLogin.setAttribute("id", "buttonLogin");
   buttonLogin.addEventListener("click", function (event) {
     event.preventDefault();
+
     if (validEmail(inputMail) && validPassword(inputPassword)) {
-      const emailValue = document.querySelector(".inputMail").value;
-      const passwordValue = document.querySelector(".password").value;
-      if (emailValue === data.email && passwordValue === data.password) {
-        authenticatedSession();
-      } else {
-        alert("Erreur dans l’identifiant ou le mot de passe");
-      }
+      authenticatedSession();
     }
   });
 
@@ -101,12 +96,14 @@ navLogin.addEventListener("click", function () {
 //verification de la connexion
 
 function authenticatedSession() {
+  let emailValue = document.querySelector(".inputMail").value;
+  let passwordValue = document.querySelector(".password").value;
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {
       "content-Type": "application/json",
     },
-    body: jsonData,
+    body: JSON.stringify({ email: emailValue, password: passwordValue }),
   }).then(async (responses) => {
     let tokenData = await responses.json();
     if (responses.ok) {

@@ -437,3 +437,8 @@ footer nav ul {
 	margin-top: 20px;
 	margin-bottom: 10px;
 }
+
+.nav a {
+	text-decoration-line: none;
+	color: #000;
+}
