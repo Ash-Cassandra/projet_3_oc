@@ -1,6 +1,3 @@
-//const data = { email: "sophie.bluel@test.tld", password: "S0phie" };
-//const jsonData = JSON.stringify(data);
-
 // creation du formulaire de connexion
 function createForm() {
   const formlogin = document.querySelector("main");
@@ -112,7 +109,7 @@ function authenticatedSession() {
       sessionStorage.setItem("token", tokenData.token); //enregistrer le token
       window.location.replace("index.html"); //rediriger vers la page principale
     } else {
-      alert("erreur", Error);
+      alert("e-mail ou mot de passe eronné");
     }
   });
 }
